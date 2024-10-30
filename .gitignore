@@ -1,0 +1,56 @@
+# OS 관련
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE 관련
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+.vscode/
+.apt_generated
+.classpath
+.project
+.settings
+bin/
+
+# Git 관련
+*.orig
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
+
+# Gradle 관련
+.gradle
+**/build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Java 관련
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+
+# 환경설정 파일
+*.properties
+HELP.md
+
+# STS
+.springBeans
+.sts4-cache
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
