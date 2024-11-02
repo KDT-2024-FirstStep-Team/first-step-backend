@@ -35,6 +35,7 @@ public class User {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Lob
     @Column(name = "profile_url")
     private String profileUrl;
 
@@ -50,6 +51,7 @@ public class User {
     @Column(name = "counselor_check", nullable = false)
     private boolean counselorCheck = false;
 
+    @Lob
     @Column(name = "family_url")
     private String familyUrl;
 
