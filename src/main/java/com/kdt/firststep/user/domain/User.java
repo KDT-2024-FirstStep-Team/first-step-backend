@@ -57,4 +57,5 @@ public class User {
 
     @Column(name = "marital_status", nullable = false)
     private boolean maritalStatus = false;
+
 }
