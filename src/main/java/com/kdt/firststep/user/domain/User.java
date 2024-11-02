@@ -1,14 +1,14 @@
 package com.kdt.firststep.user.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @Table(name = "user")
 public class User {
 
@@ -43,13 +43,13 @@ public class User {
     private boolean modeType;
 
     @Column(name = "personality_check", nullable = false)
-    private boolean personalityCheck = false;
+    private boolean personalityCheck;
 
     @Column(name = "couple_check", nullable = false)
-    private boolean coupleCheck = false;
+    private boolean coupleCheck;
 
     @Column(name = "counselor_check", nullable = false)
-    private boolean counselorCheck = false;
+    private boolean counselorCheck;
 
     @Lob
     @Column(name = "family_url")
@@ -58,6 +58,6 @@ public class User {
     private int coin;
 
     @Column(name = "marital_status", nullable = false)
-    private boolean maritalStatus = false;
+    private boolean maritalStatus;
 
 }
