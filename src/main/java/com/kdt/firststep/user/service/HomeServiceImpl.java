@@ -7,6 +7,7 @@ import com.kdt.firststep.user.dto.response.BestPostResponseDTO;
 import com.kdt.firststep.user.dto.response.CounselorContentSummaryResponseDTO;
 import com.kdt.firststep.user.repository.PostRepository;
 import com.kdt.firststep.user.repository.CounselorRepository;
+import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,10 @@ public class HomeServiceImpl implements HomeService{
     // Top 5 베스트 상담사 가져오기(리뷰순) | /home/top5Counselor
     @Override
     public List<CounselorProfile> getTop5CounselorsByReviews() {
-        return counselorRepository.findTop5CounselorsByAverageRating();
-    }
+        return counselorRepository.findTopCounselorsByAverageRating()
+            .stream()
+            .limit(5)
+            .collect(Collectors.toList());    }
 
     // /home/BestCommunity(일단은 5개만?)
     // 필요한 거 : category, title, content -> 일단 다 String
@@ -54,16 +57,12 @@ public class HomeServiceImpl implements HomeService{
         List<Post> topLikes = postRepository.findTop2ByCategoryFalseOrderByLikesDesc();
         List<Post> topRecent = postRepository.findTop2ByCategoryFalseOrderByRegisterDateDesc();
 
-        List<Post> combined = new ArrayList<>();
-        combined.addAll(topLikes);
-        combined.addAll(topRecent);
-
-        // Post 리스트를 CounselorContentResponseDTO 리스트로 변환
-        return combined.stream()
+        // 두 리스트를 Stream으로 합쳐서 변환
+        return Stream.concat(topLikes.stream(), topRecent.stream())
             .map(post -> new CounselorContentSummaryResponseDTO(
                 post.getPostId(),
                 post.getTitle(),
-                post.getWriter().getUserName(),  // 작성자의 이름
+                post.getUserName(), // 작성자의 이름
                 post.getLikes()
             ))
             .collect(Collectors.toList());
