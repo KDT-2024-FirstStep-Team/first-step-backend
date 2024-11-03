@@ -18,18 +18,19 @@ public class S3FileServiceImpl implements S3FileService {
     private String bucket;
 
     @Override
-    public String upload(MultipartFile file) {
+    public UploadResponseDto upload(MultipartFile file) {
         String fileName = file.getOriginalFilename();
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(file.getContentType());
         metadata.setContentLength(file.getSize());
+        UploadResponseDto response = new UploadResponseDto();
 
         try {
             // 파일을 S3에 업로드
             amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
-
-            // 업로드된 파일의 URL을 가져오기
-            return amazonS3Client.getUrl(bucket, fileName).toString();
+            response.setUrl(amazonS3Client.getUrl(bucket, fileName).toString());
+            response.setFileName(fileName);
+            return response;
         } catch (IOException e) {
             throw new RuntimeException("파일 업로드 중 오류가 발생했습니다.", e);
         }
