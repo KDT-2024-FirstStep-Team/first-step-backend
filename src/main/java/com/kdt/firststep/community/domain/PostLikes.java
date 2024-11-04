@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @EnableJpaAuditing
-public class PostLike {
+public class PostLikes {
 
     @EmbeddedId
     private UserPostId userPostId;
@@ -28,5 +28,5 @@ public class PostLike {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("postId")  // EmbeddedId의 postId를 참조
     @JoinColumn(name = "post_id", insertable = false, updatable = false)
-    private Post post;
+    private Posts post;
 }
