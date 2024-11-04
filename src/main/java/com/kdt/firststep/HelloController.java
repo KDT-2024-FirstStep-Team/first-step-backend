@@ -11,6 +11,6 @@ public class HelloController {
 
     @GetMapping
     public String sayHello() {
-        return "Hello, 오현! Hello, 지희! 풀리퀘스트 테스트";
+        return "Hello, 오현! Hello, 지희! 풀리퀘스트 테스트22";
     }
 }
