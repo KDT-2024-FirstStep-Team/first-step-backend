@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PostSave {
+public class PostSaves {
     @EmbeddedId
     private UserPostId userPostId;
 
@@ -29,5 +29,5 @@ public class PostSave {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("postId")  // EmbeddedId의 postId를 참조
     @JoinColumn(name = "post_id", insertable = false, updatable = false)
-    private Post post;
+    private Posts post;
 }
