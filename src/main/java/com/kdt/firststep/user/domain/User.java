@@ -11,24 +11,24 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int userId;
+    private long userId;
 
-    @Column(name = "user_name", nullable = false)
+    @Column(name = "user_name")
     private String userName;
 
-    @Column(nullable = false)
+    @Column
     private String nickname;
 
-    @Column(nullable = false)
+    @Column
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String password;
 
     private LocalDate birth;
@@ -45,13 +45,13 @@ public class User {
     @Column(name = "mode_type")
     private boolean modeType;
 
-    @Column(name = "personality_check", nullable = false)
+    @Column(name = "personality_check")
     private boolean personalityCheck;
 
-    @Column(name = "couple_check", nullable = false)
+    @Column(name = "couple_check")
     private boolean coupleCheck;
 
-    @Column(name = "counselor_check", nullable = false)
+    @Column(name = "counselor_check")
     private boolean counselorCheck;
 
     @Lob
@@ -60,7 +60,7 @@ public class User {
 
     private int coin;
 
-    @Column(name = "marital_status", nullable = false)
+    @Column(name = "marital_status")
     private boolean maritalStatus;
 
 }
