@@ -1,4 +1,4 @@
 package com.kdt.firststep.community.domain;
 
-public class Community {
+public class Comment {
 }
