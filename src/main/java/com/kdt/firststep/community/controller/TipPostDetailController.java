@@ -15,9 +15,9 @@ public class TipPostDetailController {
     private final TipPostDetailService tipPostDetailService;
 
     /**
-     *
+     * 쀼팁 게시글 저장
      * @param tipPostDTO
-     * @return 쀼팁 게시글 저장
+     * @return
      */
     @PostMapping("/tip")
     public ResponseEntity saveTipPost(@RequestBody TipPostDTO tipPostDTO) {
