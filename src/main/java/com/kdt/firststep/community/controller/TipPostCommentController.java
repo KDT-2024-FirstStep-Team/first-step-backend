@@ -1,0 +1,23 @@
+package com.kdt.firststep.community.controller;
+
+import com.kdt.firststep.community.dto.CommentDTO;
+import com.kdt.firststep.community.service.TipPostCommentService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RequestMapping("api/v1/post/tip")
+@RestController
+@RequiredArgsConstructor
+@Slf4j
+public class TipPostCommentController {
+    public final TipPostCommentService tipPostCommentService;
+
+    @PostMapping("/{postId}/comments")
+    public ResponseEntity postComment(@PathVariable int postId,
+                                      @RequestBody CommentDTO commentDTO) {
+        tipPostCommentService.postComment(postId, commentDTO);
+        return ResponseEntity.ok().build();
+    }
+}

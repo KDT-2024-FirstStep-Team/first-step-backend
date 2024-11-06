@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class TipPostServiceImpl implements TipPostService {
     private final TipPostRepository tipPostRepository;
 
+    @Override
     public List<TipPostDTO> getTipPost(String title, Pageable pageable) {
         Page<Posts> posts;
         if(title==null) {

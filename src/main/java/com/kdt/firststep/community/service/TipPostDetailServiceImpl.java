@@ -30,6 +30,7 @@ public class TipPostDetailServiceImpl implements TipPostDetailService {
      * 게시글 저장
      * @param tipPostDTO
      */
+    @Override
     public void saveTipPost(TipPostDTO tipPostDTO) {
         // 추가 설정 필요할 것 같음
         // userId를 사용하여 Users 객체 조회 (임시)
@@ -46,6 +47,7 @@ public class TipPostDetailServiceImpl implements TipPostDetailService {
      * 게시글 수정하기
      * @param tipPostDTO
      */
+    @Override
     public void updateTipPost(TipPostDTO tipPostDTO, int postId) {
         Posts post = tipPostRepository.findById(postId).orElseThrow(EntityNotFoundException::new);
             post.setCategory(tipPostDTO.isCategory());
@@ -58,6 +60,7 @@ public class TipPostDetailServiceImpl implements TipPostDetailService {
      * 글 삭제
      * @param postId
      */
+    @Override
     public void deleteTipPost(int postId){
         tipPostRepository.deleteById(postId);
     }
@@ -67,6 +70,7 @@ public class TipPostDetailServiceImpl implements TipPostDetailService {
      * @param postId 게시글 번호
      * @return
      */
+    @Override
     public TipPostDTO getTipPostById(int postId) {
         List<CommentDTO> commentsList = tipPostCommentRepository.findByPost_PostId(postId).stream()
                 .map(comment -> new CommentDTO(

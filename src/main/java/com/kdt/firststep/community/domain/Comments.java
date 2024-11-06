@@ -2,6 +2,7 @@ package com.kdt.firststep.community.domain;
 
 import com.kdt.firststep.user.domain.Users;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,8 +14,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
+@AllArgsConstructor
 public class Comments {
 
     @Id
@@ -38,4 +41,10 @@ public class Comments {
 
     @LastModifiedDate // <- 요건 JPA전용 어노테이션, @UpdateTimestamp는 hibernate
     private LocalDateTime modifyDate;
+
+    public Comments(Users user, Posts post, String content) {
+        this.user = user;
+        this.post = post;
+        this.content = content;
+    }
 }

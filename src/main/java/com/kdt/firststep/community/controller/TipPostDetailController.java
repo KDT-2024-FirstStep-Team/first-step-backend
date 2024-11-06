@@ -78,9 +78,8 @@ public class TipPostDetailController {
     @GetMapping("/{postId}")
     public ResponseEntity getTipPostDetail(@PathVariable int postId) {
         try {
-            ResponseEntity.ok(tipPostDetailService.getTipPostById(postId));
             log.info("게시글 불러오기 성공");
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(tipPostDetailService.getTipPostById(postId));
         }catch (Exception e) {
             e.printStackTrace();
             log.error("게시글을 찾지 못했습니다 : {}", e.getMessage());
