@@ -2,6 +2,7 @@ package com.kdt.firststep.user.domain;
 
 import com.kdt.firststep.community.domain.Comments;
 import com.kdt.firststep.community.domain.Posts;
+import com.kdt.firststep.community.domain.Replies;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -71,5 +72,7 @@ public class Users {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comments> commentsList;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Replies> repliesList;
 }
 

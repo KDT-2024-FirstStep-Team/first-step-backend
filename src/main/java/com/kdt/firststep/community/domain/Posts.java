@@ -34,7 +34,6 @@ public class Posts {
     private String title;
     private String content;
 
-    @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime registerDate;
 
