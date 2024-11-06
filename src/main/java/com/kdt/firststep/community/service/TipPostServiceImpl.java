@@ -1,7 +1,7 @@
 package com.kdt.firststep.community.service;
 
 import com.kdt.firststep.community.domain.Posts;
-import com.kdt.firststep.community.dto.PostDTO;
+import com.kdt.firststep.community.dto.TipPostDTO;
 import com.kdt.firststep.community.repository.TipPostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,11 +18,20 @@ import java.util.stream.Collectors;
 public class TipPostServiceImpl implements TipPostService {
     private final TipPostRepository tipPostRepository;
 
-    public List<PostDTO> getTipPost(Pageable pageable) {
-        Page<Posts> posts = tipPostRepository.findByCategoryFalse(pageable);
+    public List<TipPostDTO> getTipPost(String title, Pageable pageable) {
+        Page<Posts> posts;
+        if(title==null) {
+            log.info("Null title = : {}", title);
+            posts = tipPostRepository.findByCategoryFalse(pageable);
+        } else {
+            log.info("Search_title = : {}", title);
+            posts = tipPostRepository.findByTitleContainingAndCategoryFalse(title, pageable);
+        }
+
         log.info("posts : {}", posts.toString());
+
         return posts.stream()
-                .map(post -> new PostDTO(
+                .map(post -> new TipPostDTO(
                         post.getPostId(),
                         post.getUser().getUserId(),
                         post.isCategory(),
@@ -31,7 +40,9 @@ public class TipPostServiceImpl implements TipPostService {
                         post.getRegisterDate(),
                         post.getModifyDate(),
                         post.getLikes(),
-                        post.getComments()))
+                        post.getComments(),
+                        List.of()
+                        ))
                 .collect(Collectors.toList());
     }
 }
