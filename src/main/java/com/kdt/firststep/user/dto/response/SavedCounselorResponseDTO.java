@@ -5,9 +5,9 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BestPostResponseDTO {
+public class SavedCounselorResponseDTO {
 
     private Integer postId;
-    private String title;
-    private String content;
+    private String profileUrl;
+    private String nickname;
 }

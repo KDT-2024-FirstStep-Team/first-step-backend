@@ -1,18 +1,14 @@
 package com.kdt.firststep.user.dto.response;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CounselorContentSummaryResponseDTO {
-    private Long postId;
+
+    private Integer postId;
     private String title;
     private String writerName;
-    private int likes;
-
-
+    private Integer likes;
 }

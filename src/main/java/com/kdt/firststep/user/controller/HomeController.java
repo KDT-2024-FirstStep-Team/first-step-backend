@@ -1,6 +1,5 @@
 package com.kdt.firststep.user.controller;
 
-import com.kdt.firststep.community.domain.Post;
 import com.kdt.firststep.counselor.domain.CounselorProfile;
 import com.kdt.firststep.user.dto.response.BestPostResponseDTO;
 import com.kdt.firststep.user.dto.response.CounselorContentSummaryResponseDTO;
