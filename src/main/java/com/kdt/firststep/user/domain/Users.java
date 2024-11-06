@@ -1,6 +1,6 @@
 package com.kdt.firststep.user.domain;
 
-import com.kdt.firststep.community.domain.Comment;
+import com.kdt.firststep.community.domain.Comments;
 import com.kdt.firststep.community.domain.Posts;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +14,7 @@ import java.util.List;
 //@Builder
 @NoArgsConstructor
 @Table(name = "users")
-public class User {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,7 +69,7 @@ public class User {
     private List<Posts> postList;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> commentList;
+    private List<Comments> commentsList;
 
 }
 
