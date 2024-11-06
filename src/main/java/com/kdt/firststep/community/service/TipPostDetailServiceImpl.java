@@ -54,6 +54,13 @@ public class TipPostDetailServiceImpl implements TipPostDetailService {
         tipPostRepository.save(post);
     }
 
+    /**
+     * 글 삭제
+     * @param postId
+     */
+    public void deleteTipPost(int postId){
+        tipPostRepository.deleteById(postId);
+    }
 
     /**
      *  게시글 정보 상세보기, 관련 댓글 불러오기
