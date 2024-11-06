@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -53,11 +55,20 @@ public class Posts {
         this.comments = (commentsList != null) ? commentsList.size() : 0;
     }
 
-
+    // 게시글 등록 생성자
     public Posts(Users user, boolean category, String title, String content) {
         this.user = user;
         this.category = category;
         this.title = title;
         this.content = content;
     }
+
+//    // 게시글 수정 생성자
+//    public Posts(int postId, Users user, boolean category, String title, String content) {
+//        this.user = user;
+//        this.category = category;
+//        this.title = title;
+//        this.content = content;
+//        this.modifyDate = LocalDateTime.now();
+//    }
 }

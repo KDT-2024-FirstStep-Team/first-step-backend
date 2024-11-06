@@ -33,6 +33,30 @@ public class TipPostDetailController {
         return ResponseEntity.badRequest().build();
     }
 
+    /**
+     * 게시글 업데이트
+     * @param tipPostDTO
+     * @return
+     */
+    @PutMapping("/tip/{postId}")
+    public ResponseEntity updateTipPost(@RequestBody TipPostDTO tipPostDTO,
+                                        @PathVariable int postId) {
+        try {
+            tipPostDetailService.updateTipPost(tipPostDTO, postId); // 수정용 서비스 메서드 사용
+            log.info("게시글 수정 성공");
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("게시글 수정 실패 : {}", e.getMessage());
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    /**
+     * 게시글 상세보기 + 댓글 불러오기
+     * @param postId
+     * @return
+     */
     @GetMapping("/{postId}")
     public ResponseEntity getTipPostDetail(@PathVariable int postId) {
         return ResponseEntity.ok(tipPostDetailService.getTipPostById(postId));

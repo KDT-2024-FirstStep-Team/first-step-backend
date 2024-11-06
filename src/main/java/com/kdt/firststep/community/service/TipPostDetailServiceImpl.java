@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +32,7 @@ public class TipPostDetailServiceImpl implements TipPostDetailService {
      */
     public void saveTipPost(TipPostDTO tipPostDTO) {
         // 추가 설정 필요할 것 같음
-        // userId를 사용하여 Users 객체 조회
+        // userId를 사용하여 Users 객체 조회 (임시)
         Users user = userRepository.findById(tipPostDTO.getUserId()).orElseThrow(EntityNotFoundException::new);
         tipPostRepository.save(new Posts(
                 user,
@@ -40,6 +41,19 @@ public class TipPostDetailServiceImpl implements TipPostDetailService {
                 tipPostDTO.getContent()
         ));
     }
+
+    /**
+     * 게시글 수정하기
+     * @param tipPostDTO
+     */
+    public void updateTipPost(TipPostDTO tipPostDTO, int postId) {
+        Posts post = tipPostRepository.findById(postId).orElseThrow(EntityNotFoundException::new);
+            post.setCategory(tipPostDTO.isCategory());
+            post.setTitle(tipPostDTO.getTitle());
+            post.setContent(tipPostDTO.getContent());
+        tipPostRepository.save(post);
+    }
+
 
     /**
      *  게시글 정보 상세보기, 관련 댓글 불러오기
