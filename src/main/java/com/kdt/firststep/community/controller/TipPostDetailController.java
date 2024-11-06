@@ -29,8 +29,8 @@ public class TipPostDetailController {
         catch (Exception e) {
             e.printStackTrace();
             log.error("쀼팁 게시글 저장 실패 : {}", e.getMessage());
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.badRequest().build();
     }
 
     /**
@@ -48,8 +48,26 @@ public class TipPostDetailController {
         } catch (Exception e) {
             e.printStackTrace();
             log.error("게시글 수정 실패 : {}", e.getMessage());
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.badRequest().build();
+    }
+
+    /**
+     * 게시글 삭제
+     * @param postId
+     * @return
+     */
+    @DeleteMapping("/tip/{postId}")
+    public ResponseEntity deleteTipPost(@PathVariable int postId) {
+        try {
+            tipPostDetailService.deleteTipPost(postId); // 수정용 서비스 메서드 사용
+            log.info("게시글 삭제 성공");
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("게시글 삭제 실패 : {}", e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     /**
@@ -59,7 +77,15 @@ public class TipPostDetailController {
      */
     @GetMapping("/{postId}")
     public ResponseEntity getTipPostDetail(@PathVariable int postId) {
-        return ResponseEntity.ok(tipPostDetailService.getTipPostById(postId));
+        try {
+            ResponseEntity.ok(tipPostDetailService.getTipPostById(postId));
+            log.info("게시글 불러오기 성공");
+            return ResponseEntity.ok().build();
+        }catch (Exception e) {
+            e.printStackTrace();
+            log.error("게시글을 찾지 못했습니다 : {}", e.getMessage());
+            return ResponseEntity.noContent().build();
+        }
     }
 
 }
