@@ -1,9 +1,10 @@
 package com.kdt.firststep.user.domain;
 
-import com.kdt.firststep.community.domain.Comment;
+import com.kdt.firststep.community.domain.Comments;
 import com.kdt.firststep.community.domain.Posts;
 import com.kdt.firststep.counselor.domain.CounselingReservation;
 import com.kdt.firststep.counselor.domain.CounselorProfile;
+import com.kdt.firststep.community.domain.Replies;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,11 +17,11 @@ import java.util.List;
 //@Builder
 @NoArgsConstructor
 @Table(name = "users")
-public class User {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
+    private Integer userId;
 
     @Column(name = "user_name", nullable = false)
     private String userName;
@@ -71,7 +72,10 @@ public class User {
     private List<Posts> postList;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> commentList;
+    private List<Comments> commentsList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Replies> repliesList;
 
     // 상담관련 관계설정
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -79,6 +83,5 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CounselingReservation> reservations;
-
 }
 
