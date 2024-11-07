@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Repository
 public interface CounselorProfileRepository extends JpaRepository<CounselorProfile, Integer> {
-    // 평균 평점이 높은 순으로 상담사 5명 조회
+    // 만족도순, 평균 평점이 높은 순으로 상담사 5명 조회
     @Query("SELECT cp.user as user, AVG(cr.rating) as avgRating " +
             "FROM CounselorProfile cp " +
             "JOIN cp.reservations r " +
@@ -25,21 +25,28 @@ public interface CounselorProfileRepository extends JpaRepository<CounselorProfi
             "ORDER BY avgRating DESC")
     List<Map<String, Object>> findTop5CounselorsByRating(Pageable pageable);
 
-    // 상담이 완료된 건수가 많은 순으로 상담사 5명 조회
-    @Query("SELECT cp.user as user, COUNT(r) as completedCount " +
+    // 인기순, 상담이 완료된 건수가 많은 순으로 상담사 5명 조회
+    @Query("SELECT cp.user as user, COUNT(r) as completedCount, " +
+            "(SELECT AVG(cr.rating) FROM CounselingReview cr WHERE cr.reservation IN " +
+            "(SELECT res FROM CounselingReservation res WHERE res.counselorProfile = cp)) as avgRating " +
             "FROM CounselorProfile cp " +
             "JOIN cp.reservations r " +
-            "WHERE r.status = 'COMPLETED' " +
+            "WHERE r.status = '완료' " +
+            "AND cp.user.counselorCheck = true " +  // counselorCheck 조건 추가
             "GROUP BY cp.user " +
             "ORDER BY completedCount DESC")
     List<Map<String, Object>> findTop5CounselorsByCompletedSessions(Pageable pageable);
 
     // 상담사 검색
-    @Query("SELECT cp.user as user " +
+    @Query("SELECT cp.user as user, " +
+            "(SELECT AVG(cr.rating) FROM CounselingReview cr WHERE cr.reservation IN " +
+            "(SELECT res FROM CounselingReservation res WHERE res.counselorProfile = cp)) as avgRating " +
             "FROM CounselorProfile cp " +
             "WHERE cp.user.counselorCheck = true " +
-            "AND cp.user.nickname LIKE %:keyword%")
-    List<Users> findCounselorsByNicknameKeyword(@Param("keyword") String keyword);
+            "AND cp.user.nickname LIKE %:keyword% " +
+            "ORDER BY (SELECT AVG(cr.rating) FROM CounselingReview cr WHERE cr.reservation IN " +
+            "(SELECT res FROM CounselingReservation res WHERE res.counselorProfile = cp)) DESC")
+    List<Map<String, Object>> findCounselorsByNicknameKeyword(@Param("keyword") String keyword);
 
     // 특정 상담사의 모든 배지 조회
     @Query("SELECT b.badgeName FROM CounselorBadge cb " +
