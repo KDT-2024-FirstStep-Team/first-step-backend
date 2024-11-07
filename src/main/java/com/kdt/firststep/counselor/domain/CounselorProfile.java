@@ -1,6 +1,6 @@
 package com.kdt.firststep.counselor.domain;
 
-import com.kdt.firststep.user.domain.User;
+import com.kdt.firststep.user.domain.Users;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,11 +22,11 @@ public class CounselorProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "counselor_id")
-    private Long counselorId;
+    private Integer counselorId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", unique = true)
-    private User user;
+    private Users user;
 
     @Column(nullable = false)
     private String introduction;
@@ -60,7 +60,7 @@ public class CounselorProfile {
     private LocalDateTime updatedAt;
 
     @Builder
-    public CounselorProfile(User user, String introduction, String specialties,
+    public CounselorProfile(Users user, String introduction, String specialties,
                             Integer consultationFee, AvailableDays availableDays,
                             LocalTime startTime, LocalTime endTime) {
         this.user = user;

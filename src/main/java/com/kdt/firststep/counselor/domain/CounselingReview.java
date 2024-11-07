@@ -17,7 +17,7 @@ public class CounselingReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
-    private Long reviewId;
+    private Integer reviewId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reservation_id", unique = true)

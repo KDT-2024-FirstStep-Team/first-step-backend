@@ -11,8 +11,8 @@ import com.kdt.firststep.counselor.dto.response.CounselorDetailResponseDto;
 import com.kdt.firststep.counselor.dto.response.CounselorTopResponseDto;
 import com.kdt.firststep.counselor.repository.CounselingReservationRepository;
 import com.kdt.firststep.counselor.repository.CounselorProfileRepository;
-import com.kdt.firststep.counselor.repository.UserRepository;
-import com.kdt.firststep.user.domain.User;
+import com.kdt.firststep.user.domain.Users;
+import com.kdt.firststep.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +46,7 @@ public class CounselingService {
         // 조회된 상담사 정보를 DTO 로 변환
         return topCounselors.stream()
                 .map(result -> {
-                    User user = (User) result.get("user");
+                    Users user = (Users) result.get("user");
                     Double avgRating = ((Number) result.get("avgRating")).doubleValue();
                     // 각 상담사의 배지 정보 조회
                     List<String> badges = counselorProfileRepository
@@ -63,7 +63,7 @@ public class CounselingService {
 
         return topCounselors.stream()
                 .map(result -> {
-                    User user = (User) result.get("user");
+                    Users user = (Users) result.get("user");
                     List<String> badges = counselorProfileRepository
                             .findBadgesByCounselorId(user.getCounselorProfile().getCounselorId());
                     return CounselorTopResponseDto.of(user, 0.0, badges);
@@ -73,7 +73,7 @@ public class CounselingService {
 
     // 닉네임으로 상담사 검색
     public List<CounselorTopResponseDto> searchCounselorsByNickname(String keyword) {
-        List<User> counselors = counselorProfileRepository.findCounselorsByNicknameKeyword(keyword);
+        List<Users> counselors = counselorProfileRepository.findCounselorsByNicknameKeyword(keyword);
 
         return counselors.stream()
                 .map(user -> {
@@ -86,8 +86,8 @@ public class CounselingService {
 
     // 상담사 상세 정보 생성
     @Transactional  // 데이터 수정이 있으므로 readOnly = false
-    public void createCounselorDetail(Long userId, CounselorDetailRequestDto requestDto) {
-        User user = userRepository.findById(userId)
+    public void createCounselorDetail(Integer userId, CounselorDetailRequestDto requestDto) {
+        Users user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 사용자입니다."));
 
         if (counselorProfileRepository.existsByUser(user)) {   // 수정된 부분
@@ -114,7 +114,7 @@ public class CounselingService {
     }
 
     // 상담사 상세 정보 조회
-    public CounselorDetailResponseDto getCounselorDetail(Long counselorId) {
+    public CounselorDetailResponseDto getCounselorDetail(Integer counselorId) {
         CounselorProfile counselorProfile = counselorProfileRepository.findById(counselorId)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상담사입니다."));
 
@@ -127,7 +127,7 @@ public class CounselingService {
 
     // 상담사 상세 정보 수정
     @Transactional
-    public void updateCounselorDetail(Long counselorId, CounselorDetailRequestDto requestDto) {
+    public void updateCounselorDetail(Integer counselorId, CounselorDetailRequestDto requestDto) {
         CounselorProfile counselorProfile = counselorProfileRepository.findById(counselorId)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상담사입니다."));
 
@@ -155,7 +155,7 @@ public class CounselingService {
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상담사입니다."));
 
         // 2. 예약자 존재 여부 확인
-        User user = userRepository.findById(requestDto.getUserId())
+        Users user = userRepository.findById(requestDto.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 사용자입니다."));
 
         // 3. 해당 시간에 이미 예약이 있는지 확인
@@ -209,7 +209,7 @@ public class CounselingService {
     }
 
     // 사용자의 예약 목록 조회 (취소 상태 제외)
-    public List<CounselingReservationListResponseDto> getReservations(Long userId) {
+    public List<CounselingReservationListResponseDto> getReservations(Integer userId) {
         // 유저 존재 여부 확인
         userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 사용자입니다."));
@@ -226,7 +226,7 @@ public class CounselingService {
 
     // 상담 예약 상태 변경
     @Transactional
-    public void updateReservationStatus(Long reservationId, ReservationStatus newStatus) {
+    public void updateReservationStatus(Integer reservationId, ReservationStatus newStatus) {
         // 예약 조회
         CounselingReservation reservation = counselingReservationRepository.findById(reservationId)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 예약입니다."));

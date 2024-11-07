@@ -16,7 +16,7 @@ public class PersonalityController {
     private final PersonalityService personalityService;
 
     @GetMapping("/check")
-    public ResponseEntity<PersonalityCheckResponseDto> checkPersonality(@RequestParam Long userId) {
+    public ResponseEntity<PersonalityCheckResponseDto> checkPersonality(@RequestParam Integer userId) {
         return ResponseEntity.ok(personalityService.checkPersonalityStatus(userId));
     }
 }

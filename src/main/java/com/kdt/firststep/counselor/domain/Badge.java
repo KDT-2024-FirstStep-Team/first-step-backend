@@ -18,7 +18,7 @@ public class Badge { // 인증 배지 테이블
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "badge_id")
-    private Long badgeId;
+    private Integer badgeId;
 
     @Column(name = "badge_name", nullable = false)
     private String badgeName;
