@@ -1,7 +1,7 @@
 package com.kdt.firststep.counselor.dto.response;
 
 import com.kdt.firststep.counselor.domain.CounselorProfile;
-import com.kdt.firststep.user.domain.User;
+import com.kdt.firststep.user.domain.Users;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -25,7 +25,7 @@ public class CounselorDetailResponseDto {
             CounselorProfile counselorProfile,
             List<String> badges,
             Double averageRating) {
-        User user = counselorProfile.getUser();
+        Users user = counselorProfile.getUser();
         return CounselorDetailResponseDto.builder()
                 .nickname(user.getNickname())
                 .introduction(counselorProfile.getIntroduction())

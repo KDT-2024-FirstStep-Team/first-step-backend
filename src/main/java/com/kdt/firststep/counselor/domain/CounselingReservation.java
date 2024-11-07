@@ -1,6 +1,6 @@
 package com.kdt.firststep.counselor.domain;
 
-import com.kdt.firststep.user.domain.User;
+import com.kdt.firststep.user.domain.Users;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -21,11 +21,11 @@ public class CounselingReservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reservation_id")
-    private Long reservationId;
+    private Integer reservationId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "counselor_id")
@@ -48,7 +48,7 @@ public class CounselingReservation {
     private LocalDateTime createdAt;
 
     @Builder
-    public CounselingReservation(User user, CounselorProfile counselorProfile,
+    public CounselingReservation(Users user, CounselorProfile counselorProfile,
                                  LocalDate appointmentDate, LocalTime appointmentTime) {
         validateReservationTime(counselorProfile, appointmentDate, appointmentTime);
         this.user = user;

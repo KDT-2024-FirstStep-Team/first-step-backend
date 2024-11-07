@@ -10,7 +10,7 @@ import java.time.LocalTime;
 @Getter
 @Builder
 public class CounselingReservationListResponseDto {
-    private Long reservationId;           // 예약 ID
+    private Integer reservationId;           // 예약 ID
     private String counselorNickname;     // 상담사 닉네임
     private String counselorProfileUrl;   // 상담사 프로필 이미지
     private LocalDate appointmentDate;    // 상담 날짜

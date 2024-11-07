@@ -13,10 +13,10 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Repository
-public interface CounselingReservationRepository extends JpaRepository<CounselingReservation, Long> {
+public interface CounselingReservationRepository extends JpaRepository<CounselingReservation, Integer> {
     // 특정 시간에 예약이 있는지 확인
     boolean existsByCounselorProfileCounselorIdAndAppointmentDateAndAppointmentTimeAndStatusNot(
-            Long counselorId,
+            Integer counselorId,
             LocalDate date,
             LocalTime time,
             ReservationStatus status
@@ -28,7 +28,7 @@ public interface CounselingReservationRepository extends JpaRepository<Counselin
             "AND r.status != :cancelledStatus " +
             "ORDER BY r.appointmentDate DESC, r.appointmentTime DESC")
     List<CounselingReservation> findAllByUserIdAndStatusNotOrderByDesc(
-            @Param("userId") Long userId,
+            @Param("userId") Integer userId,
             @Param("cancelledStatus") ReservationStatus cancelledStatus);
 
     // 확정 상태이고 상담 종료 시간이 현재보다 이전인 예약들 조회

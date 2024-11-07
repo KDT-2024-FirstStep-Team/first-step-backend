@@ -1,6 +1,6 @@
 package com.kdt.firststep.counselor.dto.response;
 
-import com.kdt.firststep.user.domain.User;
+import com.kdt.firststep.user.domain.Users;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,7 +15,7 @@ public class CounselorTopResponseDto {
     private String introduction;    // 한 줄 소개
     private String profileUrl;      // 프로필 이미지 URL
 
-    public static CounselorTopResponseDto of(User user, double avgRating, List<String> badges) {
+    public static CounselorTopResponseDto of(Users user, double avgRating, List<String> badges) {
         return CounselorTopResponseDto.builder()
                 .nickname(user.getNickname())
                 .averageRating(Math.round(avgRating * 10.0) / 10.0)  // 소수점 첫째자리까지 반올림

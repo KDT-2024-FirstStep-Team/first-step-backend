@@ -41,7 +41,7 @@ public class CounselingController {
     // 상담사 상세 정보 생성 API
     @PostMapping("/detail")
     public ResponseEntity<Void> createCounselorDetail(
-            @RequestParam Long userId,
+            @RequestParam Integer userId,
             @RequestBody CounselorDetailRequestDto requestDto) {
         counselingService.createCounselorDetail(userId, requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -50,14 +50,14 @@ public class CounselingController {
     // 상담사 상세 정보 조회 API
     @GetMapping("/detail/{counselorId}")
     public ResponseEntity<CounselorDetailResponseDto> getCounselorDetail(
-            @PathVariable Long counselorId) {
+            @PathVariable Integer counselorId) {
         return ResponseEntity.ok(counselingService.getCounselorDetail(counselorId));
     }
 
     // 상담사 상세 정보 수정 API
     @PutMapping("/detail/{counselorId}")
     public ResponseEntity<Void> updateCounselorDetail(
-            @PathVariable Long counselorId,
+            @PathVariable Integer counselorId,
             @RequestBody CounselorDetailRequestDto requestDto) {
         counselingService.updateCounselorDetail(counselorId, requestDto);
         return ResponseEntity.ok().build();
@@ -73,20 +73,20 @@ public class CounselingController {
     // 상담 예약 목록 조회 API
     @GetMapping("/reservations")
     public ResponseEntity<List<CounselingReservationListResponseDto>> getReservations(
-            @RequestParam Long userId) {
+            @RequestParam Integer userId) {
         return ResponseEntity.ok(counselingService.getReservations(userId));
     }
 
     // 예약 승인 (상담사가 승인)
     @PutMapping("/reservation/{reservationId}/approve")
-    public ResponseEntity<Void> approveReservation(@PathVariable Long reservationId) {
+    public ResponseEntity<Void> approveReservation(@PathVariable Integer reservationId) {
         counselingService.updateReservationStatus(reservationId, ReservationStatus.SCHEDULED);
         return ResponseEntity.ok().build();
     }
 
     // 예약 취소 (사용자가 취소)
     @PutMapping("/reservation/{reservationId}/cancel")
-    public ResponseEntity<Void> cancelReservation(@PathVariable Long reservationId) {
+    public ResponseEntity<Void> cancelReservation(@PathVariable Integer reservationId) {
         counselingService.updateReservationStatus(reservationId, ReservationStatus.CANCELLED);
         return ResponseEntity.ok().build();
     }

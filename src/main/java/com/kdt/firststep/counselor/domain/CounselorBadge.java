@@ -17,7 +17,7 @@ public class CounselorBadge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mapping_id")
-    private Long mappingId;
+    private Integer mappingId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "counselor_id")
