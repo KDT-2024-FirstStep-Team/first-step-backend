@@ -13,15 +13,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/post")
+@RequestMapping("api/v1/post/tip")
 public class TipPostController {
     private final TipPostService tipPostService;
 
-    @GetMapping("/tip")
+    @GetMapping
     public ResponseEntity getTipPost(@RequestParam(defaultValue = "0") int page,
                                      @RequestParam(defaultValue = "3") int size,
                                      @RequestParam(defaultValue = "registerDate") String sort){
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());  // 페이지네이션 적용) {
-        return ResponseEntity.ok(tipPostService.getTipPost(pageable));
+        return ResponseEntity.ok(tipPostService.getTipPost(null, pageable));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity getTipPostSearch(@RequestParam(defaultValue = "0") int page,
+                                           @RequestParam(defaultValue = "3") int size,
+                                           @RequestParam String title){
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "registerDate");
+        return ResponseEntity.ok(tipPostService.getTipPost(title, pageable));
     }
 }
