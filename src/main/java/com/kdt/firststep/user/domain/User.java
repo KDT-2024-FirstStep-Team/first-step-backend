@@ -2,6 +2,8 @@ package com.kdt.firststep.user.domain;
 
 import com.kdt.firststep.community.domain.Comment;
 import com.kdt.firststep.community.domain.Posts;
+import com.kdt.firststep.counselor.domain.CounselingReservation;
+import com.kdt.firststep.counselor.domain.CounselorProfile;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -70,6 +72,13 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList;
+
+    // 상담관련 관계설정
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private CounselorProfile counselorProfile;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CounselingReservation> reservations;
 
 }
 
