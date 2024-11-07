@@ -23,7 +23,7 @@ public class Posts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int postId;
+    private Integer postId;
 
     // 관계 설정
     @ManyToOne

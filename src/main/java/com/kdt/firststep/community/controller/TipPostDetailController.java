@@ -40,7 +40,7 @@ public class TipPostDetailController {
      */
     @PutMapping("/tip/{postId}")
     public ResponseEntity updateTipPost(@RequestBody TipPostDTO tipPostDTO,
-                                        @PathVariable int postId) {
+                                        @PathVariable Integer postId) {
         try {
             tipPostDetailService.updateTipPost(tipPostDTO, postId); // 수정용 서비스 메서드 사용
             log.info("게시글 수정 성공");
@@ -58,7 +58,7 @@ public class TipPostDetailController {
      * @return
      */
     @DeleteMapping("/tip/{postId}")
-    public ResponseEntity deleteTipPost(@PathVariable int postId) {
+    public ResponseEntity deleteTipPost(@PathVariable Integer postId) {
         try {
             tipPostDetailService.deleteTipPost(postId); // 수정용 서비스 메서드 사용
             log.info("게시글 삭제 성공");
@@ -76,7 +76,7 @@ public class TipPostDetailController {
      * @return
      */
     @GetMapping("/{postId}")
-    public ResponseEntity getTipPostDetail(@PathVariable int postId) {
+    public ResponseEntity getTipPostDetail(@PathVariable Integer postId) {
         try {
             log.info("게시글 불러오기 성공");
             return ResponseEntity.ok(tipPostDetailService.getTipPostById(postId));
