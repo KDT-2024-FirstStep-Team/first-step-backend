@@ -62,7 +62,7 @@ public class Users {
     @Column(name = "family_url")
     private String familyUrl;
 
-    private int coin;
+    private Integer coin;
 
     @Column(name = "marital_status", nullable = false)
     private boolean maritalStatus;

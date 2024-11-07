@@ -2,6 +2,7 @@ package com.kdt.firststep.community.domain;
 
 import com.kdt.firststep.user.domain.Users;
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 public class Replies {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int reply_Id;
+    private Integer reply_Id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, updatable = false)

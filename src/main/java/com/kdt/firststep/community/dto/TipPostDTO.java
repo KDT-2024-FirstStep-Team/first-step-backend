@@ -11,14 +11,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TipPostDTO {
-    private int postId;
-    private int userId;
+    private Integer postId;
+    private Integer userId;
     private boolean category;
     private String title;
     private String content;
     private LocalDateTime registerDate;
     private LocalDateTime modifyDate;
-    private int likes;
-    private int comments;
+    private Integer likes;
+    private Integer comments;
     private List<CommentDTO> commentList;
 }
