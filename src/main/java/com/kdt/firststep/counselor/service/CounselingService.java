@@ -64,22 +64,29 @@ public class CounselingService {
         return topCounselors.stream()
                 .map(result -> {
                     Users user = (Users) result.get("user");
+                    Double avgRating = (result.get("avgRating") != null)
+                            ? ((Number) result.get("avgRating")).doubleValue()
+                            : 0.0;
                     List<String> badges = counselorProfileRepository
                             .findBadgesByCounselorId(user.getCounselorProfile().getCounselorId());
-                    return CounselorTopResponseDto.of(user, 0.0, badges);
+                    return CounselorTopResponseDto.of(user, avgRating, badges);
                 })
                 .collect(Collectors.toList());
     }
 
     // 닉네임으로 상담사 검색
     public List<CounselorTopResponseDto> searchCounselorsByNickname(String keyword) {
-        List<Users> counselors = counselorProfileRepository.findCounselorsByNicknameKeyword(keyword);
+        List<Map<String, Object>> counselors = counselorProfileRepository.findCounselorsByNicknameKeyword(keyword);
 
         return counselors.stream()
-                .map(user -> {
+                .map(result -> {
+                    Users user = (Users) result.get("user");
+                    Double avgRating = (result.get("avgRating") != null)
+                            ? ((Number) result.get("avgRating")).doubleValue()
+                            : 0.0;
                     List<String> badges = counselorProfileRepository
                             .findBadgesByCounselorId(user.getCounselorProfile().getCounselorId());
-                    return CounselorTopResponseDto.of(user, 0.0, badges);
+                    return CounselorTopResponseDto.of(user, avgRating, badges);
                 })
                 .collect(Collectors.toList());
     }
