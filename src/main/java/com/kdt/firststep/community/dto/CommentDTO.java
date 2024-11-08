@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -16,4 +18,6 @@ public class CommentDTO {
     private String content;
     private LocalDateTime registerDate;
     private LocalDateTime modifyDate;
+    private List<ReplyDTO> replies;
+
 }

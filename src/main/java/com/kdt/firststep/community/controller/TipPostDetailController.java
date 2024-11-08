@@ -71,7 +71,7 @@ public class TipPostDetailController {
     }
 
     /**
-     * 게시글 상세보기 + 댓글 불러오기
+     * 게시글 상세보기 + 댓글 + 답글 불러오기
      * @param postId
      * @return
      */
