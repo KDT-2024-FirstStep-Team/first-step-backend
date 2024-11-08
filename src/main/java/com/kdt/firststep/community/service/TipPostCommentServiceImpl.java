@@ -19,7 +19,7 @@ public class TipPostCommentServiceImpl implements TipPostCommentService {
     private final UserRepository userRepository;
 
     @Override
-    public void postComment(int postId, CommentDTO commentDTO) {
+    public void postComment(Integer postId, CommentDTO commentDTO) {
         Users user = userRepository.findById(postId).orElseThrow(EntityNotFoundException::new);
         Posts post = tipPostRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("Post not found"));
@@ -37,7 +37,7 @@ public class TipPostCommentServiceImpl implements TipPostCommentService {
      * @param commentDTO
      */
     @Override
-    public void updateComment(int commentId, int postId, CommentDTO commentDTO) {
+    public void updateComment(Integer commentId, Integer postId, CommentDTO commentDTO) {
         Comments comments = tipPostCommentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
         comments.setContent(commentDTO.getContent());
         tipPostCommentRepository.save(comments);
@@ -50,7 +50,7 @@ public class TipPostCommentServiceImpl implements TipPostCommentService {
      * @param commentDTO
      */
     @Override
-    public void deleteComment(int commentId, int postId, CommentDTO commentDTO) {
+    public void deleteComment(Integer commentId, Integer postId, CommentDTO commentDTO) {
         tipPostCommentRepository.deleteById(commentId);
     }
 }

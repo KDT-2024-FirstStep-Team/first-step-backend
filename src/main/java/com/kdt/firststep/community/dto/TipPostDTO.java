@@ -13,7 +13,7 @@ import java.util.List;
 public class TipPostDTO {
     private Integer postId;
     private Integer userId;
-    private boolean category;
+    private Boolean category;
     private String title;
     private String content;
     private LocalDateTime registerDate;

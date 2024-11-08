@@ -13,8 +13,8 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 public class UserPostId implements Serializable {
-    private int userId;
-    private int postId;
+    private Integer userId;
+    private Integer postId;
 
     @Override
     public boolean equals(Object o) {
