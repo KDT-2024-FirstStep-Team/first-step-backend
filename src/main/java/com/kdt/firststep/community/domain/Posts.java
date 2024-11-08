@@ -30,7 +30,7 @@ public class Posts {
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private Users user;
 
-    private Boolean category;
+    private boolean category;
     private String title;
     private String content;
 

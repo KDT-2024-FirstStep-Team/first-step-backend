@@ -20,6 +20,6 @@ public class PersonalityService {
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 사용자입니다."));
 
         // User 엔티티의 personalityCheck 값으로 DTO 생성 후 반환
-        return PersonalityCheckResponseDto.from(user.isPersonalityCheck());
+        return PersonalityCheckResponseDto.from(user.getPersonalityCheck());
     }
 }
