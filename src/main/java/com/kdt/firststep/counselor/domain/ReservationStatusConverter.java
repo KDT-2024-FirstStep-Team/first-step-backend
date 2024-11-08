@@ -20,8 +20,8 @@ public class ReservationStatusConverter implements AttributeConverter<Reservatio
         }
 
         return Arrays.stream(ReservationStatus.values())
-            .filter(status -> status.getStatus().equals(dbData))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("Unknown database value:" + dbData));
+                .filter(status -> status.getStatus().equals(dbData))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unknown database value:" + dbData));
     }
 }

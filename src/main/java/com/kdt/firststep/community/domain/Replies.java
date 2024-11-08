@@ -2,6 +2,7 @@ package com.kdt.firststep.community.domain;
 
 import com.kdt.firststep.user.domain.Users;
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,44 +12,37 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comments {
-
+@EntityListeners(AuditingEntityListener.class)
+public class Replies {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer commentId;
+    private Integer reply_Id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private Users user;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false, updatable = false)
-    private Posts post;
+    @JoinColumn(name = "comment_id", nullable = false, updatable = false)
+    private Comments comment;
 
-    @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false, updatable = false)
     @CreationTimestamp
-    private LocalDateTime registerDate;
+    private LocalDateTime register_date;
 
-    @LastModifiedDate // <- 요건 JPA전용 어노테이션, @UpdateTimestamp는 hibernate
-    private LocalDateTime modifyDate;
+    @LastModifiedDate
+    private LocalDateTime modify_date;
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Replies> repliesList;
-
-    public Comments(Users user, Posts post, String content) {
+    public Replies(Users user, Comments comment, String content) {
         this.user = user;
-        this.post = post;
+        this.comment = comment;
         this.content = content;
     }
 }

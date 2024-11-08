@@ -2,6 +2,9 @@ package com.kdt.firststep.user.domain;
 
 import com.kdt.firststep.community.domain.Comments;
 import com.kdt.firststep.community.domain.Posts;
+import com.kdt.firststep.counselor.domain.CounselingReservation;
+import com.kdt.firststep.counselor.domain.CounselorProfile;
+import com.kdt.firststep.community.domain.Replies;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -18,7 +21,6 @@ public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     private Integer userId;
 
     @Column(name = "user_name", nullable = false)
@@ -76,4 +78,13 @@ public class Users {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comments> commentsList;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Replies> repliesList;
+
+    // 상담관련 관계설정
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private CounselorProfile counselorProfile;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CounselingReservation> reservations;
 }

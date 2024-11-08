@@ -51,7 +51,7 @@ public class CounselingReservation {
 
     @Builder
     public CounselingReservation(Users user, CounselorProfile counselorProfile,
-        LocalDate appointmentDate, LocalTime appointmentTime) {
+                                 LocalDate appointmentDate, LocalTime appointmentTime) {
         validateReservationTime(counselorProfile, appointmentDate, appointmentTime);
         this.user = user;
         this.counselorProfile = counselorProfile;

@@ -20,8 +20,8 @@ public class AvailableDaysConverter implements AttributeConverter<AvailableDays,
         }
 
         return Arrays.stream(AvailableDays.values())
-            .filter(e -> e.getDay().equals(dbData))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("Unknown database value:" + dbData));
+                .filter(e -> e.getDay().equals(dbData))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unknown database value:" + dbData));
     }
 }
