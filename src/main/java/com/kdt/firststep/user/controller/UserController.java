@@ -4,7 +4,6 @@ package com.kdt.firststep.user.controller;
 import com.kdt.firststep.user.domain.Users;
 import com.kdt.firststep.user.dto.request.UpdateProfileRequestDTO;
 import com.kdt.firststep.user.dto.response.SavedCounselorResponseDTO;
-import com.kdt.firststep.user.dto.response.UpdateProfileResponseDTO;
 import com.kdt.firststep.user.dto.response.UserActivityDTO;
 import com.kdt.firststep.user.repository.UserRepository;
 import com.kdt.firststep.user.service.UserService;
@@ -53,12 +52,12 @@ public class UserController {
 
     // 프로필 정보 업데이트 | 이미지(profile_url), 닉네임(nickname) -> S3와 연결
     @PutMapping("/{userId}/profile")
-    public  ResponseEntity<UpdateProfileResponseDTO> updateUserProfile(
+    public  ResponseEntity<UpdateProfileRequestDTO> updateUserProfile(
         @PathVariable("userId") Integer userId,
         @RequestParam("file") MultipartFile file,
         @Valid @RequestBody UpdateProfileRequestDTO updateProfileRequestDTO){
 
-        UpdateProfileResponseDTO updatedProfile = userService.updateProfile(userId, file,  updateProfileRequestDTO);
+        UpdateProfileRequestDTO updatedProfile = userService.updateProfile(userId, file,  updateProfileRequestDTO);
         return ResponseEntity.ok(updatedProfile);
     }
 

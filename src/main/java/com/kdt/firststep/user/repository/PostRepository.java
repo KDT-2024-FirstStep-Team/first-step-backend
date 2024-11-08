@@ -1,16 +1,16 @@
 package com.kdt.firststep.user.repository;
 
-import com.kdt.firststep.community.domain.Post;
+import com.kdt.firststep.community.domain.Posts;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface PostRepository extends JpaRepository<Posts, Long> {
 
     // post 테이블에서 좋아요 수(likes) 순으로 상위 3개의 게시글의 제목과 내용 일부만 가져오기.
     @Query("SELECT p.postId, p.title, SUBSTRING(p.content, 1, 30) AS content " +
-        "FROM Post p " +
+        "FROM Posts p " +
         "ORDER BY p.likes DESC")
     List<Object[]> findTop3ByLikesWithTitleAndContent();
 
@@ -24,11 +24,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
      *
      * */
     // post 테이블에서 category가 false인 것 중에서 최신 등록일(registerDate) 순으로 상위 2개의 게시글 가져오기
-    List<Post> findTop2ByCategoryFalseOrderByRegisterDateDesc();
+    List<Posts> findTop2ByCategoryFalseOrderByRegisterDateDesc();
 
     // post 테이블에서 category가 false인 것 중에서 좋아요 수(likes) 순으로 상위 2개의 게시글 가져오기
     // category가 false인 것 중에서 좋아요 수(likes) 순으로 상위 2개의 게시글 가져오기
-    List<Post> findTop2ByCategoryFalseOrderByLikesDesc();
+    List<Posts> findTop2ByCategoryFalseOrderByLikesDesc();
 }
 
 

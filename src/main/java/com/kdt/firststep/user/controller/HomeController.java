@@ -1,8 +1,8 @@
 package com.kdt.firststep.user.controller;
 
-import com.kdt.firststep.counselor.domain.CounselorProfile;
 import com.kdt.firststep.user.dto.response.BestPostResponseDTO;
 import com.kdt.firststep.user.dto.response.CounselorContentSummaryResponseDTO;
+import com.kdt.firststep.user.dto.response.CounselorProfileWithRatingResponseDTO;
 import com.kdt.firststep.user.service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +28,8 @@ public class HomeController {
     // Top 5 베스트 상담사 가져오기 API
     //  CounselorProfile 엔티티에서 직접
     @GetMapping("/top5Counselor")
-    public ResponseEntity<List<CounselorProfile>> getTop5CounselorByReviews() {
-        List<CounselorProfile> top5Counselors = homeService.getTop5CounselorsByReviews();
+    public ResponseEntity<List<CounselorProfileWithRatingResponseDTO>> getTop5CounselorByReviews() {
+        List<CounselorProfileWithRatingResponseDTO> top5Counselors = homeService.getTop5CounselorsByReviews();
         return ResponseEntity.ok(top5Counselors);
     }
 
