@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/comment")
+@RequestMapping("api/v1/tip/reply")
 @Slf4j
-public class PostReplyController {
+public class TipPostReplyController {
     private final PostReplyService postReplyService;
 
     @PostMapping

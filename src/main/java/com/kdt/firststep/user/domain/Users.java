@@ -37,7 +37,7 @@ public class Users {
 
     private LocalDate birth;
 
-    private boolean gender;
+    private Boolean gender;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -47,16 +47,16 @@ public class Users {
     private String profileUrl;
 
     @Column(name = "mode_type")
-    private boolean modeType;
+    private Boolean modeType;
 
     @Column(name = "personality_check", nullable = false)
-    private boolean personalityCheck;
+    private Boolean personalityCheck;
 
     @Column(name = "couple_check", nullable = false)
-    private boolean coupleCheck;
+    private Boolean coupleCheck;
 
     @Column(name = "counselor_check", nullable = false)
-    private boolean counselorCheck;
+    private Boolean counselorCheck;
 
     @Lob
     @Column(name = "family_url")

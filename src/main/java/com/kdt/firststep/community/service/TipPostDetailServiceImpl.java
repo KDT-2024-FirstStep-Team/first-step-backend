@@ -1,6 +1,5 @@
 package com.kdt.firststep.community.service;
 
-import com.kdt.firststep.community.domain.Comments;
 import com.kdt.firststep.community.domain.Posts;
 import com.kdt.firststep.community.dto.CommentDTO;
 import com.kdt.firststep.community.dto.ReplyDTO;
@@ -14,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,14 +73,14 @@ public class TipPostDetailServiceImpl implements TipPostDetailService {
         Posts post = tipPostRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("게시글을 찾을 수 없습니다"));
 
-        List<CommentDTO> commentsList = tipPostCommentRepository.findByPost_PostIdWithReplies(postId)
+        List<CommentDTO> commentsList = tipPostCommentRepository.findComment(postId)
                 .stream()
                 .map(comment -> {
                     // 각 댓글의 답글 목록을 DTO로 변환
                     List<ReplyDTO> replyList = comment.getRepliesList()
                             .stream()
                             .map(reply -> new ReplyDTO(
-                                    reply.getReply_Id(),
+                                    reply.getReplyId(),
                                     reply.getUser().getUserId(),
                                     reply.getComment().getCommentId(),
                                     reply.getContent(),

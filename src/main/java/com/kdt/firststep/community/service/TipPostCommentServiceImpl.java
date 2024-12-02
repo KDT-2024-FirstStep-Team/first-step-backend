@@ -38,19 +38,18 @@ public class TipPostCommentServiceImpl implements TipPostCommentService {
      */
     @Override
     public void updateComment(Integer commentId, Integer postId, CommentDTO commentDTO) {
-        Comments comments = tipPostCommentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
-        comments.setContent(commentDTO.getContent());
-        tipPostCommentRepository.save(comments);
+        Comments comment = tipPostCommentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
+        comment.setContent(commentDTO.getContent());
+        tipPostCommentRepository.save(comment);
     }
 
     /**
      * 댓글 삭제
      * @param commentId
      * @param postId
-     * @param commentDTO
      */
     @Override
-    public void deleteComment(Integer commentId, Integer postId, CommentDTO commentDTO) {
+    public void deleteComment(Integer commentId, Integer postId) {
         tipPostCommentRepository.deleteById(commentId);
     }
 }

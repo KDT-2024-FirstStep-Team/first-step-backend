@@ -1,6 +1,6 @@
 package com.kdt.firststep.community.controller;
 
-import com.kdt.firststep.community.service.TipPostService;
+import com.kdt.firststep.community.service.LifePostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -12,27 +12,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequestMapping("api/v1/post/life")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/post/tip")
 @Slf4j
-public class TipPostController {
-    private final TipPostService tipPostService;
+public class LifePostController {
+    public final LifePostService lifePostService;
 
     /**
-     * 팁 게시글 불러오기 및 검색
+     * Life 게시글 불러오기 및 검색
      * @param page
      * @param size
      * @param sort
-     * @param title (optional)
+     * @param title
      * @return
      */
     @GetMapping
-    public ResponseEntity getTipPost(@RequestParam(defaultValue = "0") Integer page,
-                                    @RequestParam(defaultValue = "10") Integer size,
-                                    @RequestParam(defaultValue = "registerDate") String sort,
-                                    @RequestParam(required = false) String title) {
+    public ResponseEntity getLifePost(@RequestParam(defaultValue = "0") Integer page,
+                                     @RequestParam(defaultValue = "10") Integer size,
+                                     @RequestParam(defaultValue = "registerDate") String sort,
+                                     @RequestParam(required = false) String title) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
-        return ResponseEntity.ok(tipPostService.getTipPost(title, pageable));
+        return ResponseEntity.ok(lifePostService.getLifePost(title, pageable));
     }
 }

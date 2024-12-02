@@ -1,18 +1,18 @@
 package com.kdt.firststep.community.controller;
 
 import com.kdt.firststep.community.dto.CommentDTO;
-import com.kdt.firststep.community.service.TipPostCommentService;
+import com.kdt.firststep.community.service.LifePostCommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("api/v1/post/tip")
+@RequestMapping("api/v1/post/life")
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class TipPostCommentController {
-    public final TipPostCommentService tipPostCommentService;
+public class LifePostCommentController {
+    private final LifePostCommentService lifePostCommentService;
 
     /**
      * 댓글 달기
@@ -21,10 +21,11 @@ public class TipPostCommentController {
      * @return
      */
     @PostMapping("/{postId}/comments")
-    public ResponseEntity postComment(@PathVariable int postId, @RequestBody CommentDTO commentDTO) {
+    public ResponseEntity postComment(@PathVariable int postId,
+                                      @RequestBody CommentDTO commentDTO) {
         log.info("postComment CommentDTO : {}", commentDTO);
 
-        tipPostCommentService.postComment(postId, commentDTO);
+        lifePostCommentService.postComment(postId, commentDTO);
         return ResponseEntity.ok().build();
     }
 
@@ -39,7 +40,7 @@ public class TipPostCommentController {
     public ResponseEntity updateComment(@PathVariable Integer postId,
                                       @PathVariable Integer commentId,
                                       @RequestBody CommentDTO commentDTO) {
-        tipPostCommentService.updateComment(commentId, postId, commentDTO);
+        lifePostCommentService.updateComment(commentId, postId, commentDTO);
         return ResponseEntity.ok().build();
     }
 
@@ -47,13 +48,12 @@ public class TipPostCommentController {
      * 댓글 삭제
      * @param postId
      * @param commentId
-     * @param commentDTO
      * @return
      */
     @DeleteMapping("/{postId}/comments/{commentId}")
     public ResponseEntity deleteComment(@PathVariable Integer postId,
-                                        @PathVariable Integer commentId) {
-        tipPostCommentService.deleteComment(commentId, postId);
+                                      @PathVariable Integer commentId) {
+        lifePostCommentService.deleteComment(commentId, postId);
         return ResponseEntity.ok().build();
     }
-}
+} 

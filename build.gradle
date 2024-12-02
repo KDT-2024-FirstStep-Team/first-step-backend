@@ -36,6 +36,9 @@ dependencies {
 
     // Quartz
     implementation 'org.springframework.boot:spring-boot-starter-quartz'
+
+    // Security
+
 }
 
 tasks.named('test') {

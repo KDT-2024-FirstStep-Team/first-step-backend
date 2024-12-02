@@ -9,11 +9,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TipPostCommentRepository extends JpaRepository<Comments, Integer> {
-
+public interface LifePostCommentRepository extends JpaRepository<Comments, Integer> {
     @Query("SELECT c FROM Comments c " +
             "LEFT JOIN FETCH c.repliesList r " +
             "LEFT JOIN FETCH c.user " +
             "WHERE c.post.postId = :postId")
-    List<Comments> findComment(@Param("postId") int postId);
-}
+    List<Comments> findLifeComment(@Param("postId") int postId);
+} 
