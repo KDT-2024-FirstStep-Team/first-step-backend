@@ -63,8 +63,8 @@ public class CounselorProfile {
 
     @Builder
     public CounselorProfile(Users user, String introduction, String specialties,
-                            Integer consultationFee, AvailableDays availableDays,
-                            LocalTime startTime, LocalTime endTime) {
+        Integer consultationFee, AvailableDays availableDays,
+        LocalTime startTime, LocalTime endTime) {
         this.user = user;
         this.introduction = introduction;
         this.specialties = specialties;
@@ -75,7 +75,7 @@ public class CounselorProfile {
     }
 
     public void update(String introduction, String specialties, Integer consultationFee,
-                       AvailableDays availableDays, LocalTime startTime, LocalTime endTime) {
+        AvailableDays availableDays, LocalTime startTime, LocalTime endTime) {
         this.introduction = introduction;
         this.specialties = specialties;
         this.consultationFee = consultationFee;
