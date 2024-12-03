@@ -77,7 +77,7 @@ public class Users {
 
 
     @Column(name = "child_status", nullable = false)
-    private boolean childStatus;
+    private Boolean childStatus;
 
     // 관계설정
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

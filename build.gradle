@@ -42,7 +42,7 @@ dependencies {
   
   // Quartz
   implementation 'org.springframework.boot:spring-boot-starter-quartz'
-	
+
     // Quartz
     implementation 'org.springframework.boot:spring-boot-starter-quartz'
 

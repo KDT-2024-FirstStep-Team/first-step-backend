@@ -55,7 +55,7 @@ public interface CounselorProfileRepository extends JpaRepository<CounselorProfi
     List<String> findBadgesByCounselorId(Integer counselorId);
 
     // 상담사 프로필 존재 여부
-    boolean existsByUser(Users user);
+    Boolean existsByUser(Users user);
 
     // 평균 평점 조회
     @Query("SELECT AVG(cr.rating) FROM CounselingReservation r " +
