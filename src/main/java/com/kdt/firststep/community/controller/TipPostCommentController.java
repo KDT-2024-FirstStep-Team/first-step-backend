@@ -35,8 +35,8 @@ public class TipPostCommentController {
      * @return
      */
     @PutMapping("/{postId}/comments/{commentId}")
-    public ResponseEntity updateComment(@PathVariable int postId,
-                                      @PathVariable int commentId,
+    public ResponseEntity updateComment(@PathVariable Integer postId,
+                                      @PathVariable Integer commentId,
                                       @RequestBody CommentDTO commentDTO) {
         tipPostCommentService.updateComment(commentId, postId, commentDTO);
         return ResponseEntity.ok().build();
@@ -50,8 +50,8 @@ public class TipPostCommentController {
      * @return
      */
     @DeleteMapping("/{postId}/comments/{commentId}")
-    public ResponseEntity deleteComment(@PathVariable int postId,
-                                        @PathVariable int commentId,
+    public ResponseEntity deleteComment(@PathVariable Integer postId,
+                                        @PathVariable Integer commentId,
                                         @RequestBody CommentDTO commentDTO) {
         tipPostCommentService.deleteComment(commentId, postId, commentDTO);
         return ResponseEntity.ok().build();

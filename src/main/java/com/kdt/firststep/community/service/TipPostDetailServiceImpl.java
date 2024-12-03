@@ -3,6 +3,7 @@ package com.kdt.firststep.community.service;
 import com.kdt.firststep.community.domain.Comments;
 import com.kdt.firststep.community.domain.Posts;
 import com.kdt.firststep.community.dto.CommentDTO;
+import com.kdt.firststep.community.dto.ReplyDTO;
 import com.kdt.firststep.community.dto.TipPostDTO;
 import com.kdt.firststep.community.repository.TipPostCommentRepository;
 import com.kdt.firststep.community.repository.TipPostRepository;
@@ -72,16 +73,38 @@ public class TipPostDetailServiceImpl implements TipPostDetailService {
      */
     @Override
     public TipPostDTO getTipPostById(int postId) {
-        List<CommentDTO> commentsList = tipPostCommentRepository.findByPost_PostId(postId).stream()
-                .map(comment -> new CommentDTO(
-                        comment.getCommentId(),
-                        comment.getUser().getUserId(),
-                        comment.getPost().getPostId(),
-                        comment.getContent(),
-                        comment.getRegisterDate(),
-                        comment.getModifyDate()
-                )).collect(Collectors.toList());
-        Posts post = tipPostRepository.findById(postId).orElseThrow(()-> new EntityNotFoundException("게시글 못찾겠다"));
+        Posts post = tipPostRepository.findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException("게시글을 찾을 수 없습니다"));
+
+        List<CommentDTO> commentsList = tipPostCommentRepository.findByPost_PostIdWithReplies(postId)
+                .stream()
+                .map(comment -> {
+                    // 각 댓글의 답글 목록을 DTO로 변환
+                    List<ReplyDTO> replyList = comment.getRepliesList()
+                            .stream()
+                            .map(reply -> new ReplyDTO(
+                                    reply.getReply_Id(),
+                                    reply.getUser().getUserId(),
+                                    reply.getComment().getCommentId(),
+                                    reply.getContent(),
+                                    reply.getRegister_date(),
+                                    reply.getModify_date()
+                            ))
+                            .collect(Collectors.toList());
+
+                    // 댓글 정보와 함께 답글 목록도 포함하여 DTO 생성
+                    return new CommentDTO(
+                            comment.getCommentId(),
+                            comment.getUser().getUserId(),
+                            comment.getPost().getPostId(),
+                            comment.getContent(),
+                            comment.getRegisterDate(),
+                            comment.getModifyDate(),
+                            replyList  // 답글 목록 추가
+                    );
+                })
+                .collect(Collectors.toList());
+
         return new TipPostDTO(
                 post.getPostId(),
                 post.getUser().getUserId(),
@@ -93,9 +116,7 @@ public class TipPostDetailServiceImpl implements TipPostDetailService {
                 post.getLikes(),
                 post.getComments(),
                 commentsList
-                )
-                ;
-
+        );
     }
 
 }
