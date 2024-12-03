@@ -44,6 +44,7 @@ public class UserController {
 
     // 찜한 상담사 불러오기 (일단 완료)
     @GetMapping("/{userId}/saved-counselor")
+
     public ResponseEntity<List<SavedCounselorResponseDTO>> getUserSavedCounselor(@PathVariable("userId") Integer userId){
 
         List<SavedCounselorResponseDTO> savedCounselors = userService.getSavedCounselorProfilesByUserId(userId);

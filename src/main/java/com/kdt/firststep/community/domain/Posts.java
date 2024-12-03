@@ -30,10 +30,11 @@ public class Posts {
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private Users user;
 
-    private boolean category;
+    private Boolean category;
     private String title;
     private String content;
 
+    @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime registerDate;
 
@@ -44,6 +45,7 @@ public class Posts {
 
     @Transient
     private Integer comments=0;
+
 
     // mappedBy = 연결, cascade = 데이터 변경시 자식 엔티티에게 변경사항 전파,orphanRemoval = post에서 comment가 제거되면 DB에서도 자동제거
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
