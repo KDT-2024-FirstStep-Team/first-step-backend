@@ -43,7 +43,6 @@ bin/
 # 환경설정 파일
 *.properties
 HELP.md
-*.yml
 
 # STS
 .springBeans
@@ -57,6 +56,5 @@ HELP.md
 /.nb-gradle/
 
 /src/main/generated
-
 
 

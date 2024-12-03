@@ -25,4 +25,3 @@ public class AvailableDaysConverter implements AttributeConverter<AvailableDays,
                 .orElseThrow(() -> new IllegalArgumentException("Unknown database value:" + dbData));
     }
 }
-
