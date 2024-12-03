@@ -1,15 +1,13 @@
 package com.kdt.firststep.counselor.service;
 
-import com.kdt.firststep.counselor.domain.AvailableDays;
-import com.kdt.firststep.counselor.domain.CounselingReservation;
-import com.kdt.firststep.counselor.domain.CounselorProfile;
-import com.kdt.firststep.counselor.domain.ReservationStatus;
+import com.kdt.firststep.counselor.domain.*;
 import com.kdt.firststep.counselor.dto.request.CounselingReservationRequestDto;
 import com.kdt.firststep.counselor.dto.request.CounselorDetailRequestDto;
-import com.kdt.firststep.counselor.dto.response.CounselingReservationListResponseDto;
-import com.kdt.firststep.counselor.dto.response.CounselorDetailResponseDto;
-import com.kdt.firststep.counselor.dto.response.CounselorTopResponseDto;
+import com.kdt.firststep.counselor.dto.request.ReviewCreateRequestDto;
+import com.kdt.firststep.counselor.dto.request.ReviewUpdateRequestDto;
+import com.kdt.firststep.counselor.dto.response.*;
 import com.kdt.firststep.counselor.repository.CounselingReservationRepository;
+import com.kdt.firststep.counselor.repository.CounselingReviewRepository;
 import com.kdt.firststep.counselor.repository.CounselorProfileRepository;
 import com.kdt.firststep.user.domain.Users;
 import com.kdt.firststep.user.repository.UserRepository;
@@ -37,6 +35,7 @@ public class CounselingService {
     private final UserRepository userRepository;
     private final CounselorProfileRepository counselorProfileRepository;
     private final CounselingReservationRepository counselingReservationRepository;
+    private final CounselingReviewRepository counselingReviewRepository;
 
     public List<CounselorTopResponseDto> getTopCounselorsByRating() {
         // 상위 5명의 상담사만 조회
@@ -318,6 +317,72 @@ public class CounselingService {
             } catch (Exception e) {
                 log.error("Failed to complete reservation: {}", reservation.getReservationId(), e);
             }
+        }
+    }
+
+    // 리뷰 작성
+    @Transactional
+    public void createReview(Integer reservationId, ReviewCreateRequestDto requestDto) {
+        // 1. 예약 조회
+        CounselingReservation reservation = counselingReservationRepository.findById(reservationId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 예약입니다."));
+
+        // 2. 리뷰 작성 가능 여부 검증
+        validateReviewCreation(reservation);
+
+        // 3. 리뷰 생성
+        CounselingReview review = CounselingReview.builder()
+                .reservation(reservation)
+                .rating(requestDto.getRating())
+                .content(requestDto.getContent())
+                .build();
+
+        counselingReviewRepository.save(review);
+    }
+
+    // 리뷰 수정
+    @Transactional
+    public void updateReview(Integer reviewId, ReviewUpdateRequestDto requestDto) {
+        CounselingReview review = counselingReviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 리뷰입니다."));
+
+        review.update(requestDto.getRating(), requestDto.getContent());
+    }
+
+    // 리뷰 삭제
+    @Transactional
+    public void deleteReview(Integer reviewId) {
+        CounselingReview review = counselingReviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 리뷰입니다."));
+
+        counselingReviewRepository.delete(review);
+    }
+
+    // 상담사의 리뷰 목록 조회
+    public List<ReviewListResponseDto> getCounselorReviews(Integer counselorId) {
+        List<CounselingReview> reviews = counselingReviewRepository.findAllByCounselorIdOrderByCreatedAtDesc(counselorId);
+        return reviews.stream()
+                .map(ReviewListResponseDto::from)
+                .collect(Collectors.toList());
+    }
+
+    // 리뷰 상세 조회
+    public ReviewDetailResponseDto getReviewDetail(Integer reviewId) {
+        CounselingReview review = counselingReviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 리뷰입니다."));
+        return ReviewDetailResponseDto.from(review);
+    }
+
+    // 리뷰 작성 가능 여부 검증
+    private void validateReviewCreation(CounselingReservation reservation) {
+        // 1. 상담이 완료된 상태인지 확인
+        if (reservation.getStatus() != ReservationStatus.COMPLETED) {
+            throw new IllegalStateException("완료된 상담에 대해서만 리뷰를 작성할 수 있습니다.");
+        }
+
+        // 2. 이미 리뷰가 존재하는지 확인
+        if (reservation.getReview() != null) {
+            throw new IllegalStateException("이미 작성된 리뷰가 존재합니다.");
         }
     }
 }

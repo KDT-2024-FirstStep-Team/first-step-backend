@@ -67,6 +67,9 @@ public class Users {
     @Column(name = "marital_status", nullable = false)
     private boolean maritalStatus;
 
+    @Column(name = "child_status", nullable = false)
+    private boolean childStatus;
+
     // 관계설정
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Posts> postList;

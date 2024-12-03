@@ -1,13 +1,14 @@
 package com.kdt.firststep.counselor.controller;
 
 import com.kdt.firststep.counselor.domain.ReservationStatus;
-import com.kdt.firststep.counselor.dto.request.CounselingReservationRequestDto;
-import com.kdt.firststep.counselor.dto.request.CounselorDetailRequestDto;
-import com.kdt.firststep.counselor.dto.response.CounselingReservationListResponseDto;
-import com.kdt.firststep.counselor.dto.response.CounselorDetailResponseDto;
-import com.kdt.firststep.counselor.dto.response.CounselorTopResponseDto;
+import com.kdt.firststep.counselor.dto.request.*;
+import com.kdt.firststep.counselor.dto.response.*;
+import com.kdt.firststep.counselor.repository.CounselorFilterRepositoryImpl;
 import com.kdt.firststep.counselor.service.CounselingService;
+import com.kdt.firststep.counselor.service.CounselorFilterService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,9 @@ import java.util.List;
 @RequestMapping("/counselor")
 public class CounselingController {
     private final CounselingService counselingService;
+    private final CounselorFilterService counselorFilterService;
 
+    // 만족도 TOP5 상담사 조회 API (리뷰 평점 평균이 높은 순)
     @GetMapping("/top/satisfaction")
     public ResponseEntity<List<CounselorTopResponseDto>> getTopCounselors() {
         return ResponseEntity.ok(counselingService.getTopCounselorsByRating());
@@ -89,5 +92,59 @@ public class CounselingController {
     public ResponseEntity<Void> cancelReservation(@PathVariable Integer reservationId) {
         counselingService.updateReservationStatus(reservationId, ReservationStatus.CANCELLED);
         return ResponseEntity.ok().build();
+    }
+
+    // 리뷰 작성
+    @PostMapping("/review/{reservationId}")
+    public ResponseEntity<Void> createReview(
+            @PathVariable Integer reservationId,
+            @RequestBody ReviewCreateRequestDto requestDto) {
+        counselingService.createReview(reservationId, requestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    // 리뷰 수정
+    @PutMapping("/review/{reviewId}")
+    public ResponseEntity<Void> updateReview(
+            @PathVariable Integer reviewId,
+            @RequestBody ReviewUpdateRequestDto requestDto) {
+        counselingService.updateReview(reviewId, requestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    // 리뷰 삭제
+    @DeleteMapping("/review/{reviewId}")
+    public ResponseEntity<Void> deleteReview(@PathVariable Integer reviewId) {
+        counselingService.deleteReview(reviewId);
+        return ResponseEntity.ok().build();
+    }
+
+    // 상담사의 리뷰 목록 조회
+    @GetMapping("/review/counselor/{counselorId}")
+    public ResponseEntity<List<ReviewListResponseDto>> getCounselorReviews(
+            @PathVariable Integer counselorId) {
+        return ResponseEntity.ok(counselingService.getCounselorReviews(counselorId));
+    }
+
+    // 리뷰 상세 조회
+    @GetMapping("/review/{reviewId}")
+    public ResponseEntity<ReviewDetailResponseDto> getReviewDetail(
+            @PathVariable Integer reviewId) {
+        return ResponseEntity.ok(counselingService.getReviewDetail(reviewId));
+    }
+
+    // 상담사 필터링
+    @GetMapping("/filter")
+    public ResponseEntity<List<CounselorFilterResponseDto>> filterCounselors(
+            @RequestParam(required = false) String timeSlot,
+            @RequestParam(required = false) String ageRange,
+            @RequestParam(required = false) Boolean gender) {
+
+        CounselorFilterRequestDto requestDto = new CounselorFilterRequestDto();
+        requestDto.setTimeSlot(timeSlot);
+        requestDto.setAgeRange(ageRange);
+        requestDto.setGender(gender);
+
+        return ResponseEntity.ok(counselorFilterService.filterCounselors(requestDto));
     }
 }
