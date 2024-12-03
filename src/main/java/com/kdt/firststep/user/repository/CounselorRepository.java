@@ -21,5 +21,4 @@ public interface CounselorRepository extends JpaRepository<CounselorProfile, Lon
         "ORDER BY AVG(cr.rating) DESC")
     List<CounselorProfileWithRatingResponseDTO> findTopCounselorsByAverageRating();
 
-
 }

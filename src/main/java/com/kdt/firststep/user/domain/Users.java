@@ -5,6 +5,7 @@ import com.kdt.firststep.community.domain.Posts;
 import com.kdt.firststep.counselor.domain.CounselingReservation;
 import com.kdt.firststep.counselor.domain.CounselorProfile;
 import com.kdt.firststep.community.domain.Replies;
+import com.kdt.firststep.counselor.domain.SavedCounselor;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -87,4 +88,7 @@ public class Users {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CounselingReservation> reservations;
+
+    @OneToMany(mappedBy = "user")
+    private List<SavedCounselor> savedCounselors;
 }
