@@ -58,4 +58,6 @@ HELP.md
 
 /src/main/generated
 
+*.sql
+
 

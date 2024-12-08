@@ -46,11 +46,13 @@ public class CounselingService {
         return topCounselors.stream()
                 .map(result -> {
                     Users user = (Users) result.get("user");
+                    Integer counselorId = (Integer) result.get("counselorId");
+                    Integer userId = user.getUserId();
                     Double avgRating = ((Number) result.get("avgRating")).doubleValue();
                     // 각 상담사의 배지 정보 조회
                     List<String> badges = counselorProfileRepository
-                            .findBadgesByCounselorId(user.getCounselorProfile().getCounselorId());
-                    return CounselorTopResponseDto.of(user, avgRating, badges);
+                            .findBadgesByCounselorId(counselorId);
+                    return CounselorTopResponseDto.of(user, counselorId, userId, avgRating, badges);
                 })
                 .collect(Collectors.toList());
     }
@@ -63,12 +65,14 @@ public class CounselingService {
         return topCounselors.stream()
                 .map(result -> {
                     Users user = (Users) result.get("user");
+                    Integer counselorId = (Integer) result.get("counselorId");
+                    Integer userId = user.getUserId();
                     Double avgRating = (result.get("avgRating") != null)
                             ? ((Number) result.get("avgRating")).doubleValue()
                             : 0.0;
                     List<String> badges = counselorProfileRepository
-                            .findBadgesByCounselorId(user.getCounselorProfile().getCounselorId());
-                    return CounselorTopResponseDto.of(user, avgRating, badges);
+                            .findBadgesByCounselorId(counselorId);
+                    return CounselorTopResponseDto.of(user, counselorId, userId, avgRating, badges);
                 })
                 .collect(Collectors.toList());
     }
@@ -80,12 +84,14 @@ public class CounselingService {
         return counselors.stream()
                 .map(result -> {
                     Users user = (Users) result.get("user");
+                    Integer counselorId = (Integer) result.get("counselorId");
+                    Integer userId = user.getUserId();
                     Double avgRating = (result.get("avgRating") != null)
                             ? ((Number) result.get("avgRating")).doubleValue()
                             : 0.0;
                     List<String> badges = counselorProfileRepository
-                            .findBadgesByCounselorId(user.getCounselorProfile().getCounselorId());
-                    return CounselorTopResponseDto.of(user, avgRating, badges);
+                            .findBadgesByCounselorId(counselorId);
+                    return CounselorTopResponseDto.of(user, counselorId, userId, avgRating, badges);
                 })
                 .collect(Collectors.toList());
     }
@@ -297,15 +303,19 @@ public class CounselingService {
         }
     }
 
+    // 만료된 상담 예약을 자동으로 상담 완료 처리
     @Transactional
     public void completeExpiredReservations() {
         LocalDateTime now = LocalDateTime.now();
+
+        // 현재 시점 기준, SCHEDULED 상태인 예약들 중에서 만료된 예약 조회
         List<CounselingReservation> expiredReservations = counselingReservationRepository
                 .findExpiredConfirmedReservations(
-                        ReservationStatus.SCHEDULED.name(),  // enum을 String으로 변환
+                        ReservationStatus.SCHEDULED.getStatus(),
                         now
                 );
 
+        // 개별 예약 처리
         for (CounselingReservation reservation : expiredReservations) {
             try {
                 // validateStatusChange 메소드를 통해 상태 변경 가능 여부 검증
@@ -313,9 +323,9 @@ public class CounselingService {
                 // 상태 변경
                 reservation.updateStatus(ReservationStatus.COMPLETED);
                 counselingReservationRepository.save(reservation);
-                log.info("Automatically completed reservation: {}", reservation.getReservationId());
+                log.info("완료된 상담 자동으로 완료 처리 : {}", reservation.getReservationId());
             } catch (Exception e) {
-                log.error("Failed to complete reservation: {}", reservation.getReservationId(), e);
+                log.error("예약 완료 실패: {}", reservation.getReservationId(), e);
             }
         }
     }
