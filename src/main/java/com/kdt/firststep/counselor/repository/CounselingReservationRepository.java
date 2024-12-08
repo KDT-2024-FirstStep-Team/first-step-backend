@@ -31,7 +31,7 @@ public interface CounselingReservationRepository extends JpaRepository<Counselin
             @Param("userId") Integer userId,
             @Param("cancelledStatus") ReservationStatus cancelledStatus);
 
-    // 확정 상태이고 상담 종료 시간이 현재보다 이전인 예약들 조회
+    // 만료된 상담 예약 조회 (확정 상태이고 상담 종료 시간이 현재보다 이전인 예약들 조회)
     @Query(value = "SELECT * FROM counseling_reservations cr " +
             "WHERE cr.status = :status " +
             "AND TIMESTAMP(cr.appointment_date, cr.appointment_time) + INTERVAL 1 HOUR < :now",
