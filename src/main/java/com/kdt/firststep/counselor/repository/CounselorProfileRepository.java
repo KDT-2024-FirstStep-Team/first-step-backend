@@ -64,4 +64,10 @@ public interface CounselorProfileRepository extends JpaRepository<CounselorProfi
             "JOIN CounselingReview cr ON cr.reservation = r " +
             "WHERE r.counselorProfile.counselorId = :counselorId")
     Optional<Double> findAverageRatingByCounselorId(@Param("counselorId") Integer counselorId);
+
+    // 상담사의 완료된 상담 건수를 조회
+    @Query("SELECT COUNT(r) FROM CounselingReservation r " +
+            "WHERE r.counselorProfile.counselorId = :counselorId " +
+            "AND r.status = '완료'")
+    Integer countCompletedSessionsByCounselorId(@Param("counselorId") Integer counselorId);
 }

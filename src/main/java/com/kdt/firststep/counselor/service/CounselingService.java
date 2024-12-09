@@ -134,7 +134,11 @@ public class CounselingService {
         Double averageRating = counselorProfileRepository.findAverageRatingByCounselorId(counselorId)
                 .orElse(0.0);
 
-        return CounselorDetailResponseDto.from(counselorProfile, badges, averageRating);
+        // 완료된 상담 건수 조회
+        Integer completedSessionCount = counselorProfileRepository
+                .countCompletedSessionsByCounselorId(counselorId);
+
+        return CounselorDetailResponseDto.from(counselorProfile, badges, averageRating, completedSessionCount);
     }
 
     // 상담사 상세 정보 수정
