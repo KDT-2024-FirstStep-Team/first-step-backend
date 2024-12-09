@@ -22,9 +22,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -181,23 +180,23 @@ public class CounselingService {
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 사용자입니다."));
 
         // 3. 해당 시간에 이미 예약이 있는지 확인
-        if (counselingReservationRepository.existsByCounselorProfileCounselorIdAndAppointmentDateAndAppointmentTimeAndStatusNot(
+        if (counselingReservationRepository.existsByCounselorProfileCounselorIdAndAppointmentDateAndAppointmentTimeAndStatusIn(
                 requestDto.getCounselorId(),
                 requestDto.getAppointmentDate(),
-                requestDto.getAppointmentTime(),
-                ReservationStatus.CANCELLED)) {
+                requestDto.getAppointmentTimeAsLocalTime(),
+                Arrays.asList(ReservationStatus.PENDING, ReservationStatus.SCHEDULED))) {
             throw new IllegalStateException("해당 시간에는 이미 예약이 존재합니다.");
         }
 
         // 4. 상담 가능 시간인지 확인
-        validateAvailableTime(counselor, requestDto.getAppointmentDate(), requestDto.getAppointmentTime());
+        validateAvailableTime(counselor, requestDto.getAppointmentDate(), requestDto.getAppointmentTimeAsLocalTime());
 
         // 5. 예약 생성
         CounselingReservation reservation = CounselingReservation.builder()
                 .user(user)
                 .counselorProfile(counselor)
                 .appointmentDate(requestDto.getAppointmentDate())
-                .appointmentTime(requestDto.getAppointmentTime())
+                .appointmentTime(requestDto.getAppointmentTimeAsLocalTime())
                 .build();
 
         counselingReservationRepository.save(reservation);
@@ -404,5 +403,46 @@ public class CounselingService {
         if (reservation.getReview() != null) {
             throw new IllegalStateException("이미 작성된 리뷰가 존재합니다.");
         }
+    }
+
+    // 상담사 상담 예약 가능 시간
+    public List<String> getAvailableTimes(Integer counselorId, LocalDate date) {
+        // 상담사 프로필 조회
+        CounselorProfile counselor = counselorProfileRepository.findById(counselorId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 상담사입니다."));
+
+        // 주말 여부 확인
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+        boolean isWeekend = dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;
+
+        // 상담사의 가능 요일과 선택된 날짜 비교
+        String availableDays = counselor.getAvailableDays().getDay(); // "평일", "주말", "모든요일" 중 하나
+        if ((availableDays.equals("평일") && isWeekend) ||
+                (availableDays.equals("주말") && !isWeekend)) {
+            return Collections.emptyList();
+        }
+
+        // 해당 날짜의 예약된 시간 조회 (대기중, 예약확정 상태)
+        List<LocalTime> reservedTimes = counselingReservationRepository
+                .findReservedTimesByDateAndCounselorAndStatus(
+                        date,
+                        counselorId,
+                        Arrays.asList(ReservationStatus.PENDING, ReservationStatus.SCHEDULED)
+                );
+
+        // 가능한 시간대 계산
+        List<String> availableTimes = new ArrayList<>();
+        LocalTime time = counselor.getStartTime();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        while (!time.isAfter(counselor.getEndTime().minusHours(1))) { // 상담은 1시간 단위
+            if (!reservedTimes.contains(time)) {
+                availableTimes.add(time.format(formatter));
+            }
+            time = time.plusHours(1);
+        }
+
+
+        return availableTimes;
     }
 }

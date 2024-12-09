@@ -9,10 +9,13 @@ import com.kdt.firststep.counselor.service.CounselorFilterService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -146,5 +149,13 @@ public class CounselingController {
         requestDto.setGender(gender);
 
         return ResponseEntity.ok(counselorFilterService.filterCounselors(requestDto));
+    }
+
+    // 상담사 날짜별 상담 가능 시간 조회
+    @GetMapping("/available-times/{counselorId}")
+    public ResponseEntity<List<String>> getAvailableTimes(
+            @PathVariable Integer counselorId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return ResponseEntity.ok(counselingService.getAvailableTimes(counselorId, date));
     }
 }
