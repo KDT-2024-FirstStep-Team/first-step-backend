@@ -102,7 +102,13 @@ public class CounselingService {
         Users user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 사용자입니다."));
 
-        if (counselorProfileRepository.existsByUser(user)) {   // 수정된 부분
+        // 상담사 권한 체크 추가
+        if (!user.getCounselorCheck()) {
+            throw new IllegalStateException("상담사 권한이 없는 사용자입니다.");
+        }
+
+        // 상담사 프로필 존재 여부 체크
+        if (counselorProfileRepository.existsByUser(user)) {
             throw new IllegalStateException("이미 존재하는 상담사 프로필입니다.");
         }
 
