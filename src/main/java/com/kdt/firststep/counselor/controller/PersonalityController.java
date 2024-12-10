@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class PersonalityController {
     private final PersonalityService personalityService;
 
+    /**
+     * 성향 분석 여부 확인
+     * @param userId
+     */
     @GetMapping("/check")
     public ResponseEntity<PersonalityCheckResponseDto> checkPersonality(@RequestParam Integer userId) {
         return ResponseEntity.ok(personalityService.checkPersonalityStatus(userId));

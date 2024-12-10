@@ -14,7 +14,8 @@ public class SavedCounselorController {
 
     /**
      * 상담사 찜 추가
-     * 나중에 JWT 토큰에서 userId 가져오도록 수정
+     * @param counselorId
+     * @param userId
      */
     @PostMapping("/{counselorId}/save")
     public ResponseEntity<String> saveCounselor(
@@ -26,7 +27,8 @@ public class SavedCounselorController {
 
     /**
      * 상담사 찜 삭제
-     * 나중에 JWT 토큰에서 userId 가져오도록 수정
+     * @param counselorId
+     * @param userId
      */
     @DeleteMapping("/{counselorId}/save")
     public ResponseEntity<String> cancelSavedCounselor(
