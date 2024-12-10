@@ -1,10 +1,23 @@
 package com.kdt.firststep.counselor.service;
 
+import com.kdt.firststep.counselor.dto.response.PersonalityAnswerOptionResponseDto;
 import com.kdt.firststep.counselor.dto.response.PersonalityCheckResponseDto;
+import com.kdt.firststep.counselor.dto.response.PersonalityQuestionResponseDto;
+
+import java.util.List;
 
 public interface PersonalityService {
 
     // 성향 분석 여부 확인
     PersonalityCheckResponseDto checkPersonalityStatus(Integer userId);
+
+    // 모든 활성화된 질문 조회
+    List<PersonalityQuestionResponseDto> getAllQuestions();
+
+    // 특정 질문 유형의 활성화된 질문들 조회
+    List<PersonalityQuestionResponseDto> getQuestionsByType(String questionType);
+
+    // 특정 질문의 답변 옵션들 조회
+    List<PersonalityAnswerOptionResponseDto> getAnswerOptionsForQuestion(Integer questionId);
 
 }
