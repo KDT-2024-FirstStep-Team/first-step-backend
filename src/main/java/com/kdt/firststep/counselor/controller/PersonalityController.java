@@ -1,5 +1,6 @@
 package com.kdt.firststep.counselor.controller;
 
+import com.kdt.firststep.counselor.dto.request.PersonalityAnswerRequestDto;
 import com.kdt.firststep.counselor.dto.response.PersonalityAnswerOptionResponseDto;
 import com.kdt.firststep.counselor.dto.response.PersonalityCheckResponseDto;
 import com.kdt.firststep.counselor.dto.response.PersonalityQuestionResponseDto;
@@ -17,7 +18,7 @@ public class PersonalityController {
     private final PersonalityService personalityService;
 
     /**
-     * 성향 분석 여부 확인
+     * 성향 분석 여부 확인 API
      * @param userId
      */
     @GetMapping("/check")
@@ -26,7 +27,7 @@ public class PersonalityController {
     }
 
     /**
-     * 성향분석 모든 질문 조회
+     * 성향분석 모든 질문 조회 API
      */
     @GetMapping("/questions")
     public ResponseEntity<List<PersonalityQuestionResponseDto>> getAllQuestions() {
@@ -34,7 +35,17 @@ public class PersonalityController {
     }
 
     /**
-     * 성향분석 특정유형 질문 조회
+     * 성향분석 답변 제출 API
+     * @param requestDto 사용자의 답변 정보 (userId와 질문별 선택한 옵션 목록)
+     */
+    @PostMapping("/answers")
+    public ResponseEntity<String> submitAnswers(@RequestBody PersonalityAnswerRequestDto requestDto) {
+        personalityService.submitAnswers(requestDto);
+        return ResponseEntity.ok("성향분석이 완료되었습니다.");
+    }
+
+    /**
+     * 성향분석 특정유형 질문 조회 API
      * @param questionType
      */
     @GetMapping("/questions/type")
@@ -44,7 +55,7 @@ public class PersonalityController {
     }
 
     /**
-     * 성향분석 질문별 답변 옵션 조회
+     * 성향분석 질문별 답변 옵션 조회 API
      * @param questionId
      */
     @GetMapping("/questions/{questionId}/options")

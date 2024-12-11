@@ -1,5 +1,6 @@
 package com.kdt.firststep.counselor.service;
 
+import com.kdt.firststep.counselor.dto.request.PersonalityAnswerRequestDto;
 import com.kdt.firststep.counselor.dto.response.PersonalityAnswerOptionResponseDto;
 import com.kdt.firststep.counselor.dto.response.PersonalityCheckResponseDto;
 import com.kdt.firststep.counselor.dto.response.PersonalityQuestionResponseDto;
@@ -20,4 +21,6 @@ public interface PersonalityService {
     // 특정 질문의 답변 옵션들 조회
     List<PersonalityAnswerOptionResponseDto> getAnswerOptionsForQuestion(Integer questionId);
 
+    // 성향 분석 답변 제출
+    void submitAnswers(PersonalityAnswerRequestDto requestDto);
 }
