@@ -4,6 +4,7 @@ import com.kdt.firststep.counselor.dto.request.PersonalityAnswerRequestDto;
 import com.kdt.firststep.counselor.dto.response.PersonalityAnswerOptionResponseDto;
 import com.kdt.firststep.counselor.dto.response.PersonalityCheckResponseDto;
 import com.kdt.firststep.counselor.dto.response.PersonalityQuestionResponseDto;
+import com.kdt.firststep.counselor.dto.response.PersonalityResultResponseDto;
 import com.kdt.firststep.counselor.service.PersonalityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,15 @@ public class PersonalityController {
     public ResponseEntity<String> submitAnswers(@RequestBody PersonalityAnswerRequestDto requestDto) {
         personalityService.submitAnswers(requestDto);
         return ResponseEntity.ok("성향분석이 완료되었습니다.");
+    }
+
+    /**
+     * 성향분석 결과 조회 API
+     * @param userId
+     */
+    @GetMapping("/result")
+    public ResponseEntity<PersonalityResultResponseDto> getPersonalityResult(@RequestParam Integer userId) {
+        return ResponseEntity.ok(personalityService.getPersonalityResult(userId));
     }
 
     /**

@@ -4,6 +4,7 @@ import com.kdt.firststep.counselor.dto.request.PersonalityAnswerRequestDto;
 import com.kdt.firststep.counselor.dto.response.PersonalityAnswerOptionResponseDto;
 import com.kdt.firststep.counselor.dto.response.PersonalityCheckResponseDto;
 import com.kdt.firststep.counselor.dto.response.PersonalityQuestionResponseDto;
+import com.kdt.firststep.counselor.dto.response.PersonalityResultResponseDto;
 
 import java.util.List;
 
@@ -23,4 +24,10 @@ public interface PersonalityService {
 
     // 성향 분석 답변 제출
     void submitAnswers(PersonalityAnswerRequestDto requestDto);
+
+    // 성향분석 결과 분석 및 저장
+    void analyzeAndSaveResult(Integer userId);
+
+    // 성향분석 결과 조회
+    PersonalityResultResponseDto getPersonalityResult(Integer userId);
 }
