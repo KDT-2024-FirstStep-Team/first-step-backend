@@ -1,0 +1,29 @@
+package com.kdt.firststep.counselor.dto.response;
+
+import com.kdt.firststep.counselor.domain.CounselingReview;
+import lombok.Builder;
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Builder
+public class ReviewDetailResponseDto {
+    private Integer reviewId;
+    private Integer rating;
+    private String content;
+    private String userNickname;
+    private String userProfileUrl;
+    private LocalDateTime createdAt;
+
+    public static ReviewDetailResponseDto from(CounselingReview review) {
+        return ReviewDetailResponseDto.builder()
+                .reviewId(review.getReviewId())
+                .rating(review.getRating())
+                .content(review.getContent())
+                .userNickname(review.getReservation().getUser().getNickname())
+                .userProfileUrl(review.getReservation().getUser().getProfileUrl())
+                .createdAt(review.getCreatedAt())
+                .build();
+    }
+}
