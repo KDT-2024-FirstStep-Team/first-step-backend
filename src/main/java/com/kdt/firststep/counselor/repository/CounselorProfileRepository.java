@@ -70,4 +70,9 @@ public interface CounselorProfileRepository extends JpaRepository<CounselorProfi
             "WHERE r.counselorProfile.counselorId = :counselorId " +
             "AND r.status = '완료'")
     Integer countCompletedSessionsByCounselorId(@Param("counselorId") Integer counselorId);
+
+    // 특정 평점 이상의 상담사 목록 조회
+    @Query("SELECT c FROM CounselorProfile c WHERE " +
+            "(SELECT AVG(cr.rating) FROM CounselingReview cr WHERE cr.reservation.counselorProfile = c) >= :minRating")
+    List<CounselorProfile> findAllByAverageRatingGreaterThanEqual(@Param("minRating") double minRating);
 }

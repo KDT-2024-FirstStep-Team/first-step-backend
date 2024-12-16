@@ -6,6 +6,7 @@ import com.kdt.firststep.counselor.dto.request.CounselorDetailRequestDto;
 import com.kdt.firststep.counselor.dto.response.CounselorDetailResponseDto;
 import com.kdt.firststep.counselor.dto.response.CounselorTopResponseDto;
 import com.kdt.firststep.counselor.repository.CounselorProfileRepository;
+import com.kdt.firststep.counselor.repository.UserPersonalityTypeRepository;
 import com.kdt.firststep.user.domain.Users;
 import com.kdt.firststep.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;

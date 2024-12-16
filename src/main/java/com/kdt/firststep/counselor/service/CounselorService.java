@@ -3,6 +3,7 @@ package com.kdt.firststep.counselor.service;
 import com.kdt.firststep.counselor.dto.request.CounselorDetailRequestDto;
 import com.kdt.firststep.counselor.dto.response.CounselorDetailResponseDto;
 import com.kdt.firststep.counselor.dto.response.CounselorTopResponseDto;
+import com.kdt.firststep.counselor.dto.response.RecommendedCounselorResponseDto;
 
 import java.util.List;
 
