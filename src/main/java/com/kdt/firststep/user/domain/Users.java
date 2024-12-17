@@ -22,6 +22,7 @@ public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Integer userId;
 
     @Column(name = "user_name", nullable = false)
@@ -71,6 +72,10 @@ public class Users {
 
     @Column(name = "marital_status")
     private Boolean maritalStatus = false;
+
+
+    @Column(name = "child_status", nullable = false)
+    private Boolean childStatus;
 
     // 관계설정
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
