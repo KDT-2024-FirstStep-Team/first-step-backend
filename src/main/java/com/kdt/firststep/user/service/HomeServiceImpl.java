@@ -6,31 +6,26 @@ import com.kdt.firststep.user.dto.response.BestPostResponseDTO;
 import com.kdt.firststep.user.dto.response.CounselorContentSummaryResponseDTO;
 import com.kdt.firststep.user.dto.response.CounselorProfileWithRatingResponseDTO;
 import com.kdt.firststep.user.repository.PostRepository;
-import com.kdt.firststep.user.repository.CounselorRepository;
+import com.kdt.firststep.user.repository.CounselorProfileViewRepository;
 import java.util.stream.Stream;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class HomeServiceImpl implements HomeService{
 
-    private final CounselorRepository counselorRepository;
+    private final CounselorProfileViewRepository counselorProfileViewRepository;
     private final PostRepository postRepository;
-
-    @Autowired
-    public HomeServiceImpl(CounselorRepository counselorRepository, PostRepository communityRepository) {
-        this.counselorRepository = counselorRepository;
-        this.postRepository = communityRepository;
-    }
 
     // Top 5 베스트 상담사 가져오기(리뷰순) | /home/top5Counselor
     @Override
     public List<CounselorProfileWithRatingResponseDTO> getTop5CounselorsByReviews() {
-        return counselorRepository.findTopCounselorsByAverageRating()
+        return counselorProfileViewRepository.findTopCounselorsByAverageRating()
             .stream()
             .limit(5)
 

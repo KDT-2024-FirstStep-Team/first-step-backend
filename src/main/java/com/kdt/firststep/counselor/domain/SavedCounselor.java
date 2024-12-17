@@ -17,12 +17,12 @@ public class SavedCounselor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer savedId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private Users user;
 
     @ManyToOne
-    @JoinColumn(name = "counselor_id")
+    @JoinColumn(name = "counselor_id", nullable = false)
     private CounselorProfile counselorProfile;
 
     private LocalDateTime createdAt;

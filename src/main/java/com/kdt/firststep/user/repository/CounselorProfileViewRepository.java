@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface CounselorRepository extends JpaRepository<CounselorProfile, Long> {
+public interface CounselorProfileViewRepository extends JpaRepository<CounselorProfile, Long> {
 
     // CounselorProfile과 CounselingReview를 조인
     // 상담사별 평균 리뷰 점수를 계산하고 점수가 높은 순으로 상위 5명 가져옴.
