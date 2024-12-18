@@ -14,8 +14,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-//@Builder
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 public class Users {
 
@@ -24,7 +25,7 @@ public class Users {
     private Integer userId;
 
     @Column(name = "user_name", nullable = false)
-    private String userName;
+    private String username;
 
     @Column(nullable = false)
     private String nickname;

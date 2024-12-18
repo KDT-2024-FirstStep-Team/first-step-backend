@@ -40,6 +40,7 @@ public class TipPostCommentServiceImpl implements TipPostCommentService {
     public void updateComment(Integer commentId, Integer postId, CommentDTO commentDTO) {
         Comments comment = tipPostCommentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
         comment.setContent(commentDTO.getContent());
+
         tipPostCommentRepository.save(comment);
     }
 

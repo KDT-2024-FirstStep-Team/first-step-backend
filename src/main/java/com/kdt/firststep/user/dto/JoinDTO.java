@@ -10,10 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JoinDTO {
-
-    private int userId;
-
-    private String userName;
+    private String username;
 
     private String nickname;
 
@@ -26,20 +23,4 @@ public class JoinDTO {
     private boolean gender;
 
     private String phoneNumber;
-
-    private String profileUrl;
-
-    private boolean modeType;
-
-    private boolean personalityCheck;
-
-    private boolean coupleCheck;
-
-    private boolean counselorCheck;
-
-    private String familyUrl;
-
-    private int coin;
-
-    private boolean maritalStatus;
 }
