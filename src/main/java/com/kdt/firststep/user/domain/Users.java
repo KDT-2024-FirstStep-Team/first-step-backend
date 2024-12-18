@@ -2,12 +2,16 @@ package com.kdt.firststep.user.domain;
 
 import com.kdt.firststep.community.domain.Comments;
 import com.kdt.firststep.community.domain.Posts;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
 import com.kdt.firststep.counselor.domain.CounselingReservation;
 import com.kdt.firststep.counselor.domain.CounselorProfile;
 import com.kdt.firststep.community.domain.Replies;
 import com.kdt.firststep.counselor.domain.SavedCounselor;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+
 import lombok.*;
 
 import java.time.LocalDate;
@@ -45,6 +49,7 @@ public class Users {
 
     private Boolean gender = false;
 
+
     @Column(name = "phone_number")
     private String phoneNumber;
 
@@ -63,6 +68,7 @@ public class Users {
 
     @Column(name = "counselor_check")
     private Boolean counselorCheck = false;
+
 
     @Lob
     @Column(name = "family_url")
@@ -83,6 +89,7 @@ public class Users {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comments> commentsList;
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Replies> repliesList;

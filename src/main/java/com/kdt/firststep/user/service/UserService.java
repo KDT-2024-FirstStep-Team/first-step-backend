@@ -1,9 +1,7 @@
 package com.kdt.firststep.user.service;
 
 import com.kdt.firststep.user.dto.request.UpdateProfileRequestDTO;
-import com.kdt.firststep.user.dto.response.CounselorReservationDTO;
 import com.kdt.firststep.user.dto.response.SavedCounselorResponseDTO;
-import com.kdt.firststep.user.dto.response.UpdateProfileResponseDTO;
 import com.kdt.firststep.user.dto.response.UserActivityDTO;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +18,6 @@ public interface UserService {
     UserActivityDTO getUserActivity(Integer userId);
 
     // 프로필 정보 업데이트
-    UpdateProfileResponseDTO updateProfileWithUrl(Integer userId, String file, UpdateProfileRequestDTO updateProfileRequestDTO);
+    UpdateProfileRequestDTO updateProfile(Integer userId, MultipartFile file, UpdateProfileRequestDTO updateProfileRequestDTO);
 
-    List<CounselorReservationDTO> getCounselorReservations(Integer userId);
 }

@@ -22,6 +22,12 @@ public interface CounselingReservationRepository extends JpaRepository<Counselin
             ReservationStatus status
     );
 
+    boolean existsByCounselorProfileCounselorIdAndAppointmentDateAndAppointmentTimeAndStatusIn(
+            Integer counselorId,
+            LocalDate appointmentDate,
+            LocalTime appointmentTime,
+            List<ReservationStatus> statuses);
+
     // 사용자의 예약 목록 조회 (취소 제외, 날짜 내림차순)
     @Query("SELECT r FROM CounselingReservation r " +
             "WHERE r.user.userId = :userId " +
@@ -31,7 +37,7 @@ public interface CounselingReservationRepository extends JpaRepository<Counselin
             @Param("userId") Integer userId,
             @Param("cancelledStatus") ReservationStatus cancelledStatus);
 
-    // 확정 상태이고 상담 종료 시간이 현재보다 이전인 예약들 조회
+    // 만료된 상담 예약 조회 (확정 상태이고 상담 종료 시간이 현재보다 이전인 예약들 조회)
     @Query(value = "SELECT * FROM counseling_reservations cr " +
             "WHERE cr.status = :status " +
             "AND TIMESTAMP(cr.appointment_date, cr.appointment_time) + INTERVAL 1 HOUR < :now",
@@ -40,4 +46,15 @@ public interface CounselingReservationRepository extends JpaRepository<Counselin
             @Param("status") String status,
             @Param("now") LocalDateTime now
     );
+
+    // 상담 예약 가능 시간 조회
+    // 특정 날짜, 상담사의 예약된 시간 조회 (상태별)
+    @Query("SELECT r.appointmentTime FROM CounselingReservation r " +
+            "WHERE r.counselorProfile.counselorId = :counselorId " +
+            "AND r.appointmentDate = :date " +
+            "AND r.status IN :statuses")
+    List<LocalTime> findReservedTimesByDateAndCounselorAndStatus(
+            @Param("date") LocalDate date,
+            @Param("counselorId") Integer counselorId,
+            @Param("statuses") List<ReservationStatus> statuses);
 }
