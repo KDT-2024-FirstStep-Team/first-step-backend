@@ -16,7 +16,6 @@ public class UserPostId implements Serializable {
     private Integer userId;
     private Integer postId;
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

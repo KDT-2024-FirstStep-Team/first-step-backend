@@ -35,7 +35,7 @@ public class TipPostServiceImpl implements TipPostService {
                 .map(post -> new TipPostDTO(
                         post.getPostId(),
                         post.getUser().getUserId(),
-                        post.getCategory(),
+                        post.isCategory(),
                         post.getTitle(),
                         post.getContent(),
                         post.getRegisterDate(),

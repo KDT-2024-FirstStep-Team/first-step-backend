@@ -11,7 +11,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-
 import java.util.List;
 
 @Entity
@@ -43,7 +42,6 @@ public class Comments {
 
     @LastModifiedDate // <- 요건 JPA전용 어노테이션, @UpdateTimestamp는 hibernate
     private LocalDateTime modifyDate;
-
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Replies> repliesList;

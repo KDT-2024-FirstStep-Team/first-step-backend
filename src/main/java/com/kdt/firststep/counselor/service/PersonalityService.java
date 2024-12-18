@@ -1,33 +1,25 @@
 package com.kdt.firststep.counselor.service;
 
-import com.kdt.firststep.counselor.dto.request.PersonalityAnswerRequestDto;
-import com.kdt.firststep.counselor.dto.response.PersonalityAnswerOptionResponseDto;
 import com.kdt.firststep.counselor.dto.response.PersonalityCheckResponseDto;
-import com.kdt.firststep.counselor.dto.response.PersonalityQuestionResponseDto;
-import com.kdt.firststep.counselor.dto.response.PersonalityResultResponseDto;
+import com.kdt.firststep.user.domain.Users;
+import com.kdt.firststep.user.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)  // 조회 전용 트랜잭션으로 설정
+public class PersonalityService {
+    private final UserRepository userRepository;
 
-public interface PersonalityService {
+    public PersonalityCheckResponseDto checkPersonalityStatus(Integer userId) {
+        // 사용자 조회 실패시 EntityNotFoundException 발생
+        Users user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 사용자입니다."));
 
-    // 성향 분석 여부 확인
-    PersonalityCheckResponseDto checkPersonalityStatus(Integer userId);
-
-    // 모든 활성화된 질문 조회
-    List<PersonalityQuestionResponseDto> getAllQuestions();
-
-    // 특정 질문 유형의 활성화된 질문들 조회
-    List<PersonalityQuestionResponseDto> getQuestionsByType(String questionType);
-
-    // 특정 질문의 답변 옵션들 조회
-    List<PersonalityAnswerOptionResponseDto> getAnswerOptionsForQuestion(Integer questionId);
-
-    // 성향 분석 답변 제출
-    void submitAnswers(PersonalityAnswerRequestDto requestDto);
-
-    // 성향분석 결과 분석 및 저장
-    void analyzeAndSaveResult(Integer userId);
-
-    // 성향분석 결과 조회
-    PersonalityResultResponseDto getPersonalityResult(Integer userId);
+        // User 엔티티의 personalityCheck 값으로 DTO 생성 후 반환
+        return PersonalityCheckResponseDto.from(user.getPersonalityCheck());
+    }
 }

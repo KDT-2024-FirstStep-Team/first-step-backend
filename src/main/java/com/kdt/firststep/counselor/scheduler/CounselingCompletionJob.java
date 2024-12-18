@@ -22,9 +22,11 @@ public class CounselingCompletionJob implements Job {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
         try {
+            logger.info("Starting counseling completion check job");
             counselingService.completeExpiredReservations();
+            logger.info("Completed counseling completion check job");
         } catch (Exception e) {
-            logger.error("상담 완료 처리 중 오류 발생", e);
+            logger.error("Error during counseling completion job", e);
             throw new JobExecutionException(e);
         }
     }

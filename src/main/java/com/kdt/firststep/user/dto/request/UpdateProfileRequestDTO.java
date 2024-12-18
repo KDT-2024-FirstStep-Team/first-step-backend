@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateProfileRequestDTO {
-    private Integer userId;
-    private String profileUrl;  // 프로필 이미지 URL
+    private String file;      // 이미지 URL
     private String nickname;    // 닉네임
 }

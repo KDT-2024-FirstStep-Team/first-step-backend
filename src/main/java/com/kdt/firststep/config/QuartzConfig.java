@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class QuartzConfig {
 
     @Bean
-    public JobDetail counselingCompletionJobDetail() {  // 이름을 jobDetail 로 변경
+    public JobDetail counselingCompletionJobDetail() {  // 이름을 jobDetail로 변경
         return JobBuilder.newJob(CounselingCompletionJob.class)
                 .withIdentity("counselingCompletionJob")
                 .storeDurably()
@@ -22,8 +22,8 @@ public class QuartzConfig {
                 .forJob(counselingCompletionJobDetail())    // 변경된 메소드명 사용
                 .withIdentity("counselingCompletionTrigger")
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withIntervalInMinutes(1) // 1분 간격
-                        .repeatForever()) // 무한 반복
+                        .withIntervalInMinutes(1)
+                        .repeatForever())
                 .build();
     }
 }

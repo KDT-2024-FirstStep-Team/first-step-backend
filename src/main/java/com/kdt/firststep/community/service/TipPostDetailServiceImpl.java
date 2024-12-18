@@ -108,7 +108,7 @@ public class TipPostDetailServiceImpl implements TipPostDetailService {
         return new TipPostDTO(
                 post.getPostId(),
                 post.getUser().getUserId(),
-                post.getCategory(),
+                post.isCategory(),
                 post.getTitle(),
                 post.getContent(),
                 post.getRegisterDate(),

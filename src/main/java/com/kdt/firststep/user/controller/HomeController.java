@@ -28,7 +28,6 @@ public class HomeController {
     // Top 5 베스트 상담사 가져오기 API
     //  CounselorProfile 엔티티에서 직접
     @GetMapping("/top5-counselor")
-
     public ResponseEntity<List<CounselorProfileWithRatingResponseDTO>> getTop5CounselorByReviews() {
         List<CounselorProfileWithRatingResponseDTO> top5Counselors = homeService.getTop5CounselorsByReviews();
         return ResponseEntity.ok(top5Counselors);
@@ -37,7 +36,6 @@ public class HomeController {
     // 베스트 게시글 3개 가져오기
     // BestPostResponseDTO를 통해서 가져옴.
     @GetMapping("/best-post")
-
     public ResponseEntity<List<BestPostResponseDTO>> getBestPosts() {
         List<BestPostResponseDTO> bestPosts = homeService.getBestPostByLikes();
         return ResponseEntity.ok(bestPosts);
@@ -46,7 +44,6 @@ public class HomeController {
 
     //상담사 콘텐츠 불러오기 API (상담사 콘텐츠 불러오기(제목, postId, 좋아요순 2개 최신순 2개))
     @GetMapping("/counselor-content")
-
     public ResponseEntity<List<CounselorContentSummaryResponseDTO>> getCounselorContents() {
         List<CounselorContentSummaryResponseDTO> content = homeService.getCounselorContentByLikesAndRecent();
         return ResponseEntity.ok(content);
