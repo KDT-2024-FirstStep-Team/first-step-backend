@@ -22,23 +22,28 @@ public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Integer userId;
 
     @Column(name = "user_name", nullable = false)
+    @NotBlank
     private String username;
 
+    @NotBlank
     @Column(nullable = false)
     private String nickname;
 
+    @NotBlank
     @Column(nullable = false)
     private String email;
 
+    @NotBlank
     @Column(nullable = false)
     private String password;
 
     private LocalDate birth;
 
-    private Boolean gender;
+    private Boolean gender = false;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -63,10 +68,13 @@ public class Users {
     @Column(name = "family_url")
     private String familyUrl;
 
-    private Integer coin;
+    private Integer coin =0;
 
     @Column(name = "marital_status", nullable = false)
     private boolean maritalStatus;
+
+    @Column(name = "child_status", nullable = false)
+    private Boolean childStatus;
 
     // 관계설정
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -84,5 +92,7 @@ public class Users {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CounselingReservation> reservations;
-}
 
+    @OneToMany(mappedBy = "user")
+    private List<SavedCounselor> savedCounselors;
+}
