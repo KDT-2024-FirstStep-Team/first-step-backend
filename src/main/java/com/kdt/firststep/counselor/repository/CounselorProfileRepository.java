@@ -16,7 +16,8 @@ import java.util.Optional;
 @Repository
 public interface CounselorProfileRepository extends JpaRepository<CounselorProfile, Integer> {
     // 만족도순, 평균 평점이 높은 순으로 상담사 5명 조회
-    @Query("SELECT cp.user as user, AVG(cr.rating) as avgRating " +
+    @Query("SELECT cp.user as user, cp.counselorId as counselorId, " +
+            "AVG(cr.rating) as avgRating " +
             "FROM CounselorProfile cp " +
             "JOIN cp.reservations r " +
             "JOIN CounselingReview cr ON cr.reservation = r " +
@@ -26,19 +27,20 @@ public interface CounselorProfileRepository extends JpaRepository<CounselorProfi
     List<Map<String, Object>> findTop5CounselorsByRating(Pageable pageable);
 
     // 인기순, 상담이 완료된 건수가 많은 순으로 상담사 5명 조회
-    @Query("SELECT cp.user as user, COUNT(r) as completedCount, " +
+    @Query("SELECT cp.user as user, cp.counselorId as counselorId, " +
+            "COUNT(r) as completedCount, " +
             "(SELECT AVG(cr.rating) FROM CounselingReview cr WHERE cr.reservation IN " +
             "(SELECT res FROM CounselingReservation res WHERE res.counselorProfile = cp)) as avgRating " +
             "FROM CounselorProfile cp " +
             "JOIN cp.reservations r " +
             "WHERE r.status = '완료' " +
             "AND cp.user.counselorCheck = true " +  // counselorCheck 조건 추가
-            "GROUP BY cp.user " +
+            "GROUP BY cp.user, cp.counselorId " +
             "ORDER BY completedCount DESC")
     List<Map<String, Object>> findTop5CounselorsByCompletedSessions(Pageable pageable);
 
     // 상담사 검색
-    @Query("SELECT cp.user as user, " +
+    @Query("SELECT cp.user as user, cp.counselorId as counselorId, " +
             "(SELECT AVG(cr.rating) FROM CounselingReview cr WHERE cr.reservation IN " +
             "(SELECT res FROM CounselingReservation res WHERE res.counselorProfile = cp)) as avgRating " +
             "FROM CounselorProfile cp " +
@@ -55,11 +57,22 @@ public interface CounselorProfileRepository extends JpaRepository<CounselorProfi
     List<String> findBadgesByCounselorId(Integer counselorId);
 
     // 상담사 프로필 존재 여부
-    boolean existsByUser(Users user);
+    Boolean existsByUser(Users user);
 
     // 평균 평점 조회
     @Query("SELECT AVG(cr.rating) FROM CounselingReservation r " +
             "JOIN CounselingReview cr ON cr.reservation = r " +
             "WHERE r.counselorProfile.counselorId = :counselorId")
     Optional<Double> findAverageRatingByCounselorId(@Param("counselorId") Integer counselorId);
+
+    // 상담사의 완료된 상담 건수를 조회
+    @Query("SELECT COUNT(r) FROM CounselingReservation r " +
+            "WHERE r.counselorProfile.counselorId = :counselorId " +
+            "AND r.status = '완료'")
+    Integer countCompletedSessionsByCounselorId(@Param("counselorId") Integer counselorId);
+
+    // 특정 평점 이상의 상담사 목록 조회
+    @Query("SELECT c FROM CounselorProfile c WHERE " +
+            "(SELECT AVG(cr.rating) FROM CounselingReview cr WHERE cr.reservation.counselorProfile = c) >= :minRating")
+    List<CounselorProfile> findAllByAverageRatingGreaterThanEqual(@Param("minRating") double minRating);
 }
