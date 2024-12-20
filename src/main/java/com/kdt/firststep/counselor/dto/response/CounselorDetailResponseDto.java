@@ -5,6 +5,7 @@ import com.kdt.firststep.user.domain.Users;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -20,12 +21,22 @@ public class CounselorDetailResponseDto {
     private String profileUrl;
     private List<String> badges;
     private Double averageRating;
+    private Integer completedSessionCount; // 완료된 상담 건수
+    private Boolean hasChildren;           // 자녀 유무 (false: 없음, true: 있음)
+    private Boolean gender;                // 성별 (false: 여자, true: 남자)
+    private String ageRange;               // 연령대 (20대, 30대 등)
 
     public static CounselorDetailResponseDto from(
             CounselorProfile counselorProfile,
             List<String> badges,
-            Double averageRating) {
+            Double averageRating,
+            Integer completedSessionCount) {
         Users user = counselorProfile.getUser();
+
+        // 연령대 계산
+        int age = LocalDate.now().getYear() - user.getBirth().getYear();
+        String ageRange = ((age / 10) * 10) + "대";
+
         return CounselorDetailResponseDto.builder()
                 .nickname(user.getNickname())
                 .introduction(counselorProfile.getIntroduction())
@@ -37,6 +48,10 @@ public class CounselorDetailResponseDto {
                 .profileUrl(user.getProfileUrl())
                 .badges(badges)
                 .averageRating(averageRating != null ? Math.round(averageRating * 10.0) / 10.0 : 0.0)
+                .completedSessionCount(completedSessionCount)
+                .hasChildren(user.getChildStatus())
+                .gender(user.getGender())
+                .ageRange(ageRange)
                 .build();
     }
 }

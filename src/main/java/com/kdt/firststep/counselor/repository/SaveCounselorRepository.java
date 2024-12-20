@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface SavedCounselorRepository extends JpaRepository<SavedCounselor, Integer> {
+public interface SaveCounselorRepository extends JpaRepository<SavedCounselor, Integer> {
 
     // 특정 유저가 특정 상담사를 찜했는지 확인
     boolean existsByUserAndCounselorProfile(Users user, CounselorProfile counselorProfile);

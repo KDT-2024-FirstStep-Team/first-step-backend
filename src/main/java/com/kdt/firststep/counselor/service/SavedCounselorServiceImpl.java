@@ -3,7 +3,7 @@ package com.kdt.firststep.counselor.service;
 import com.kdt.firststep.counselor.domain.CounselorProfile;
 import com.kdt.firststep.counselor.domain.SavedCounselor;
 import com.kdt.firststep.counselor.repository.CounselorProfileRepository;
-import com.kdt.firststep.counselor.repository.SavedCounselorRepository;
+import com.kdt.firststep.counselor.repository.SaveCounselorRepository;
 import com.kdt.firststep.user.domain.Users;
 import com.kdt.firststep.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class SavedCounselorServiceImpl implements SavedCounselorService {
-    private final SavedCounselorRepository savedCounselorRepository;
+    private final SaveCounselorRepository savedCounselorRepository;
     private final UserRepository userRepository;
     private final CounselorProfileRepository counselorProfileRepository;
 
