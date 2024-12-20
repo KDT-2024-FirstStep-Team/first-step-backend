@@ -5,7 +5,9 @@ import com.kdt.firststep.community.domain.Posts;
 import com.kdt.firststep.counselor.domain.CounselingReservation;
 import com.kdt.firststep.counselor.domain.CounselorProfile;
 import com.kdt.firststep.community.domain.Replies;
+import com.kdt.firststep.counselor.domain.SavedCounselor;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDate;

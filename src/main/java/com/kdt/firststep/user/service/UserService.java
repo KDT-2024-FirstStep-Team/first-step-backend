@@ -1,6 +1,16 @@
 package com.kdt.firststep.user.service;
 
 
+import com.kdt.firststep.user.dto.JoinDTO;
+import com.kdt.firststep.user.dto.LoginRequestDTO;
+import com.kdt.firststep.user.dto.request.UpdateProfileRequestDTO;
+import com.kdt.firststep.user.dto.response.CounselorReservationDTO;
+import com.kdt.firststep.user.dto.response.SavedCounselorResponseDTO;
+import com.kdt.firststep.user.dto.response.UpdateProfileResponseDTO;
+import com.kdt.firststep.user.dto.response.UserActivityDTO;
+
+import java.util.List;
+
 public interface UserService {
     void joinUser(JoinDTO joinDTO);
 

@@ -1,10 +1,21 @@
 package com.kdt.firststep.user.controller;
 
+import com.kdt.firststep.user.domain.Users;
+import com.kdt.firststep.user.dto.JoinDTO;
+import com.kdt.firststep.user.dto.LoginRequestDTO;
+import com.kdt.firststep.user.dto.request.UpdateProfileRequestDTO;
+import com.kdt.firststep.user.dto.response.CounselorReservationDTO;
+import com.kdt.firststep.user.dto.response.SavedCounselorResponseDTO;
+import com.kdt.firststep.user.dto.response.UpdateProfileResponseDTO;
+import com.kdt.firststep.user.repository.UserRepository;
 import com.kdt.firststep.user.service.UserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,12 +32,12 @@ public class UserController {
      * @return
      */
     @PostMapping("/join")
-    public ResponseEntity joinUser(@RequestBody JoinDTO joinDTO){
+    public ResponseEntity joinUser(@RequestBody JoinDTO joinDTO) {
         log.info("유저 회원가입 : {}", joinDTO);
 
         userService.joinUser(joinDTO);
         return ResponseEntity.ok().build();
-
+    }
     @GetMapping("/users/{userId}/counselors")
     public ResponseEntity<List<CounselorReservationDTO>> getCounselorReservations(
                 @PathVariable("userId") Integer userId){
@@ -35,10 +46,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestDTO loginRequestDTO){
+    public ResponseEntity login(@RequestBody LoginRequestDTO loginRequestDTO) {
         userService.login(loginRequestDTO);
         return ResponseEntity.ok().build();
-
+    }
     // 찜한 상담사 불러오기 (일단 완료)
     @GetMapping("/users/{userId}/saved-counselor")
     public ResponseEntity<List<SavedCounselorResponseDTO>> getUserSavedCounselor(@PathVariable("userId") Integer userId){

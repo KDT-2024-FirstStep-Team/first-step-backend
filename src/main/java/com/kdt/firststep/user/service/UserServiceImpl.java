@@ -1,5 +1,6 @@
 package com.kdt.firststep.user.service;
 
+import com.kdt.firststep.config.JwtTokenProvider;
 import com.kdt.firststep.counselor.domain.CounselingReservation;
 import com.kdt.firststep.counselor.domain.CounselorProfile;
 import com.kdt.firststep.counselor.domain.ReservationStatus;
@@ -17,8 +18,11 @@ import com.kdt.firststep.user.repository.CounselingReservationRepository2;
 import com.kdt.firststep.user.repository.SavedCounselorRepository;
 import com.kdt.firststep.user.repository.UserRepository;
 import com.mchange.util.DuplicateElementException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
