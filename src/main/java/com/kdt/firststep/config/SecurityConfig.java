@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> corsConfigurationSource())
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/v1/**",
+                        .requestMatchers("/**",
                                 "/swagger-ui/**", // Swagger UI 정적 리소스
                                 "/v3/api-docs/**",// API 문서 엔드포인트
                                 "/*.html"
