@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class CounselorFilterServiceImpl implements CounselorFilterService {
         // 시간대 문자열을 LocalTime 으로 변환
         LocalTime startTime = null;
         LocalTime endTime = null;
-        boolean isDawn = false;  // 새벽 시간대 여부를 체크하는 플래그 추가
+        Boolean isDawn = false;  // 새벽 시간대 여부를 체크하는 플래그 추가
 
         if (requestDto.getTimeSlot() != null) {
             switch (requestDto.getTimeSlot()) {
@@ -61,21 +62,19 @@ public class CounselorFilterServiceImpl implements CounselorFilterService {
                         requestDto.getGender()
                 );
 
-        // 각 상담사별로 추가 정보(배지, 평점) 조회 및 설정
-        counselors.forEach(counselor -> {
-            // 배지 정보 조회
+        // 각 상담사에 대한 추가 정보 설정
+        for (CounselorFilterResponseDto counselor : counselors) {
+            // 배지 정보 설정
             List<String> badges = counselorProfileRepository
                     .findBadgesByCounselorId(counselor.getCounselorId());
-            counselor.setBadges(badges);
+            counselor.updateBadges(badges);
 
-            // 평균 평점 조회
+            // 평균 평점 설정
             Double avgRating = counselorProfileRepository
                     .findAverageRatingByCounselorId(counselor.getCounselorId())
                     .orElse(0.0);
-            counselor.setAverageRating(
-                    Math.round(avgRating * 10.0) / 10.0  // 소수점 첫째자리까지 반올림
-            );
-        });
+            counselor.updateAverageRating(Math.round(avgRating * 10.0) / 10.0);
+        }
 
         return counselors;
     }

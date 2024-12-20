@@ -1,12 +1,16 @@
 package com.kdt.firststep.counselor.dto.response;
 
 import com.kdt.firststep.user.domain.Users;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class CounselorTopResponseDto {
     private Integer counselorId;

@@ -1,13 +1,17 @@
 package com.kdt.firststep.counselor.dto.response;
 
 import com.kdt.firststep.counselor.domain.CounselingReservation;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class CounselingReservationListResponseDto {
     private Integer reservationId;           // 예약 ID
