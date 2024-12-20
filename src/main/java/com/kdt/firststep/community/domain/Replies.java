@@ -3,10 +3,7 @@ package com.kdt.firststep.community.domain;
 import com.kdt.firststep.user.domain.Users;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,13 +13,14 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Replies {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer reply_Id;
+    private Integer replyId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, updatable = false)

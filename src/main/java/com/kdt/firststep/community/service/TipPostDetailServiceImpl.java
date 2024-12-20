@@ -1,6 +1,5 @@
 package com.kdt.firststep.community.service;
 
-import com.kdt.firststep.community.domain.Comments;
 import com.kdt.firststep.community.domain.Posts;
 import com.kdt.firststep.community.dto.CommentDTO;
 import com.kdt.firststep.community.dto.ReplyDTO;
@@ -14,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +35,7 @@ public class TipPostDetailServiceImpl implements TipPostDetailService {
         Users user = userRepository.findById(tipPostDTO.getUserId()).orElseThrow(EntityNotFoundException::new);
         tipPostRepository.save(new Posts(
                 user,
-                tipPostDTO.isCategory(),
+                tipPostDTO.getCategory(),
                 tipPostDTO.getTitle(),
                 tipPostDTO.getContent()
         ));
@@ -49,9 +46,9 @@ public class TipPostDetailServiceImpl implements TipPostDetailService {
      * @param tipPostDTO
      */
     @Override
-    public void updateTipPost(TipPostDTO tipPostDTO, int postId) {
+    public void updateTipPost(TipPostDTO tipPostDTO, Integer postId) {
         Posts post = tipPostRepository.findById(postId).orElseThrow(EntityNotFoundException::new);
-            post.setCategory(tipPostDTO.isCategory());
+            post.setCategory(tipPostDTO.getCategory());
             post.setTitle(tipPostDTO.getTitle());
             post.setContent(tipPostDTO.getContent());
         tipPostRepository.save(post);
@@ -62,7 +59,7 @@ public class TipPostDetailServiceImpl implements TipPostDetailService {
      * @param postId
      */
     @Override
-    public void deleteTipPost(int postId){
+    public void deleteTipPost(Integer postId){
         tipPostRepository.deleteById(postId);
     }
 
@@ -72,18 +69,18 @@ public class TipPostDetailServiceImpl implements TipPostDetailService {
      * @return
      */
     @Override
-    public TipPostDTO getTipPostById(int postId) {
+    public TipPostDTO getTipPostById(Integer postId) {
         Posts post = tipPostRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("게시글을 찾을 수 없습니다"));
 
-        List<CommentDTO> commentsList = tipPostCommentRepository.findByPost_PostIdWithReplies(postId)
+        List<CommentDTO> commentsList = tipPostCommentRepository.findComment(postId)
                 .stream()
                 .map(comment -> {
                     // 각 댓글의 답글 목록을 DTO로 변환
                     List<ReplyDTO> replyList = comment.getRepliesList()
                             .stream()
                             .map(reply -> new ReplyDTO(
-                                    reply.getReply_Id(),
+                                    reply.getReplyId(),
                                     reply.getUser().getUserId(),
                                     reply.getComment().getCommentId(),
                                     reply.getContent(),
@@ -108,7 +105,7 @@ public class TipPostDetailServiceImpl implements TipPostDetailService {
         return new TipPostDTO(
                 post.getPostId(),
                 post.getUser().getUserId(),
-                post.isCategory(),
+                post.getCategory(),
                 post.getTitle(),
                 post.getContent(),
                 post.getRegisterDate(),

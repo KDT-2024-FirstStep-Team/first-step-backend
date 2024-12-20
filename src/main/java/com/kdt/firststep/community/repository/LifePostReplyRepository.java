@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PostReplyRepository extends JpaRepository<Replies, Integer> {
-}
+public interface LifePostReplyRepository extends JpaRepository<Replies, Integer> {
+} 

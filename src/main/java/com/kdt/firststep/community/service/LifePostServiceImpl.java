@@ -1,9 +1,9 @@
 package com.kdt.firststep.community.service;
 
 import com.kdt.firststep.community.domain.Posts;
-import com.kdt.firststep.community.dto.TipPageResponseDTO;
-import com.kdt.firststep.community.dto.TipPostDTO;
-import com.kdt.firststep.community.repository.TipPostRepository;
+import com.kdt.firststep.community.dto.LifePageResponseDTO;
+import com.kdt.firststep.community.dto.LifePostDTO;
+import com.kdt.firststep.community.repository.LifePostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -15,29 +15,30 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
-public class TipPostServiceImpl implements TipPostService {
-    private final TipPostRepository tipPostRepository;
+@Slf4j
+public class LifePostServiceImpl implements LifePostService {
+    
+    private final LifePostRepository lifePostRepository;
 
     @Override
-    public TipPageResponseDTO getTipPost(String title, Pageable pageable) {
-
-        Pageable effectivePageable = (pageable != null) ? pageable : PageRequest.of(0, 10, Sort.by("registerDate").descending());
+    public LifePageResponseDTO getLifePost(String title, Pageable pageable) {
+        log.info("title: {}", title);
+        Pageable effectivePageable = (pageable != null) ? pageable :PageRequest.of(0, 10, Sort.by("registerDate").descending());
 
         Page<Posts> posts;
         if (title == null || title.isEmpty()) {
-            posts = tipPostRepository.findByCategoryFalse(effectivePageable);
-            log.info("꿀팁 게시판 전체 검색: {}",posts);
+            posts = lifePostRepository.findByCategoryTrue(effectivePageable);
+            log.info("쀼생 게시판 전체 검색: {}",posts);
         } else {
-            posts = tipPostRepository.findByTitleContainingAndCategoryFalse(title, effectivePageable);
+            posts = lifePostRepository.findByTitleContainingAndCategoryTrue(title, effectivePageable);
 
-            log.info("꿀팁 게시글 제목 검색: {}", posts);
+            log.info("쀼생 게시글 제목 검색: {}", posts);
         }
 
-        List<TipPostDTO> content = posts.getContent().stream()
-                .map(post -> new TipPostDTO(
+        List<LifePostDTO> content = posts.getContent().stream()
+                .map(post -> new LifePostDTO(
                         post.getPostId(),
                         post.getUser().getUserId(),
                         post.getCategory(),
@@ -48,14 +49,14 @@ public class TipPostServiceImpl implements TipPostService {
                         post.getLikes(),
                         post.getComments(),
                         List.of()
-                        ))
+                ))
                 .collect(Collectors.toList());
 
-        return new TipPageResponseDTO(
+        return new LifePageResponseDTO(
                 content,
                 posts.getNumber(),
                 posts.getTotalPages(),
                 posts.getTotalElements()
         );
     }
-}
+} 

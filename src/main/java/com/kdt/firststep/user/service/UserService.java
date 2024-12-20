@@ -1,15 +1,20 @@
 package com.kdt.firststep.user.service;
 
+
+import com.kdt.firststep.user.dto.JoinDTO;
+import com.kdt.firststep.user.dto.LoginRequestDTO;
 import com.kdt.firststep.user.dto.request.UpdateProfileRequestDTO;
 import com.kdt.firststep.user.dto.response.CounselorReservationDTO;
 import com.kdt.firststep.user.dto.response.SavedCounselorResponseDTO;
 import com.kdt.firststep.user.dto.response.UpdateProfileResponseDTO;
 import com.kdt.firststep.user.dto.response.UserActivityDTO;
+
 import java.util.List;
-import org.springframework.web.multipart.MultipartFile;
 
 public interface UserService {
+    void joinUser(JoinDTO joinDTO);
 
+    void login(LoginRequestDTO loginRequestDTO);
     // 찜한 상담사 불러오기
     List<SavedCounselorResponseDTO> getSavedCounselorProfilesByUserId(Integer userId);
 

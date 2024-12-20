@@ -1,16 +1,16 @@
 package com.kdt.firststep.community.dto;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TipPostDTO {
+public class LifePostDTO {
     private Integer postId;
     private Integer userId;
     private Boolean category;
@@ -18,8 +18,7 @@ public class TipPostDTO {
     private String content;
     private LocalDateTime registerDate;
     private LocalDateTime modifyDate;
-    private Integer likes = 0;
-    private Integer comments = 0;
+    private Integer likes;
+    private Integer comments;
     private List<CommentDTO> commentList;
-
 }

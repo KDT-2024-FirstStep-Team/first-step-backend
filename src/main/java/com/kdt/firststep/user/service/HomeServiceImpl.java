@@ -59,7 +59,7 @@ public class HomeServiceImpl implements HomeService{
             .map(post -> new CounselorContentSummaryResponseDTO(
                 post.getPostId(),
                 post.getTitle(),
-                post.getUser().getUserName(), // 작성자의 이름
+                post.getUser().getUsername(), // 작성자의 이름
                 post.getLikes()
             ))
             .collect(Collectors.toList());

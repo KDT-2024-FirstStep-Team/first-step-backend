@@ -2,10 +2,7 @@ package com.kdt.firststep.community.domain;
 
 import com.kdt.firststep.user.domain.Users;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -19,6 +16,7 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Posts {
 
     @Id
@@ -30,7 +28,7 @@ public class Posts {
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private Users user;
 
-    private boolean category;
+    private Boolean category;
     private String title;
     private String content;
 
@@ -61,13 +59,4 @@ public class Posts {
         this.title = title;
         this.content = content;
     }
-
-//    // 게시글 수정 생성자
-//    public Posts(int postId, Users user, boolean category, String title, String content) {
-//        this.user = user;
-//        this.category = category;
-//        this.title = title;
-//        this.content = content;
-//        this.modifyDate = LocalDateTime.now();
-//    }
 }

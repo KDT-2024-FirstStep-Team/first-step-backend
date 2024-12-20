@@ -16,7 +16,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 public class Users {
 
@@ -27,7 +29,7 @@ public class Users {
 
     @Column(name = "user_name", nullable = false)
     @NotBlank
-    private String userName;
+    private String username;
 
     @NotBlank
     @Column(nullable = false)
@@ -53,26 +55,25 @@ public class Users {
     private String profileUrl;
 
     @Column(name = "mode_type")
-    private Boolean modeType = false; // false: (상담사 전환 OFF), true: (상담사 전환 ON)
+    private Boolean modeType;
 
-    @Column(name = "personality_check")
-    private Boolean personalityCheck = false;
+    @Column(name = "personality_check", nullable = false)
+    private Boolean personalityCheck;
 
-    @Column(name = "couple_check")
-    private Boolean coupleCheck = false;
+    @Column(name = "couple_check", nullable = false)
+    private Boolean coupleCheck;
 
-    @Column(name = "counselor_check")
-    private Boolean counselorCheck = false;
+    @Column(name = "counselor_check", nullable = false)
+    private Boolean counselorCheck;
 
     @Lob
     @Column(name = "family_url")
     private String familyUrl;
 
-    private Integer coin = 0;
+    private Integer coin =0;
 
-    @Column(name = "marital_status")
-    private Boolean maritalStatus = false;
-
+    @Column(name = "marital_status", nullable = false)
+    private boolean maritalStatus;
 
     @Column(name = "child_status", nullable = false)
     private Boolean childStatus;
