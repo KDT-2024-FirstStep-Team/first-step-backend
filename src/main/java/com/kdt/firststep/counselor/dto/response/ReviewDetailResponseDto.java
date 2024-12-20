@@ -1,12 +1,16 @@
 package com.kdt.firststep.counselor.dto.response;
 
 import com.kdt.firststep.counselor.domain.CounselingReview;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ReviewDetailResponseDto {
     private Integer reviewId;

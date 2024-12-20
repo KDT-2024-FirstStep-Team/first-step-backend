@@ -2,13 +2,17 @@ package com.kdt.firststep.counselor.dto.response;
 
 import com.kdt.firststep.counselor.domain.CounselorProfile;
 import com.kdt.firststep.user.domain.Users;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class CounselorDetailResponseDto {
     private String nickname;
