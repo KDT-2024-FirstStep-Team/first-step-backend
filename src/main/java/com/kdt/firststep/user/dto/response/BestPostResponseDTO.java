@@ -8,6 +8,8 @@ import lombok.*;
 public class BestPostResponseDTO {
 
     private Integer postId;
+    private String nickname;
     private String title;
     private String content;
+    private String registerDate;
 }

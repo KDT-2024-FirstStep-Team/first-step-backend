@@ -10,10 +10,11 @@ import lombok.*;
 public class CounselorProfileWithRatingResponseDTO {
 
     private Integer counselorId;
-    private Integer userId;
-    private String introduction;
+    private String username;
+//    private Integer userId;
+//    private String introduction;
     private String specialties;
-    private Integer consultationFee;
-    private AvailableDays availableDays;
+//    private Integer consultationFee;
+//    private AvailableDays availableDays;
     private Double averageRating;
 }

@@ -42,8 +42,10 @@ public class HomeServiceImpl implements HomeService{
         return results.stream()
                     .map(result -> new BestPostResponseDTO(
                         ((Number) result[0]).intValue(),  // postId
-                        (String) result[1],               // title
-                        (String) result[2]                // content (substring)
+                            (String) result[1],               // nickname
+                            (String) result[2],               // title
+                            (String) result[3],               // content
+                            (String) result[4]                // registerDate
                     ))
                 .collect(Collectors.toList());
     }
@@ -51,8 +53,8 @@ public class HomeServiceImpl implements HomeService{
     // 상담사 콘텐츠 불러오기 (제목, postId, 좋아요 순 2개, 최신순 2개)
     @Override
     public List<CounselorContentSummaryResponseDTO> getCounselorContentByLikesAndRecent() {
-        List<Posts> topLikes = postRepository.findTop2ByCategoryFalseOrderByLikesDesc();
-        List<Posts> topRecent = postRepository.findTop2ByCategoryFalseOrderByRegisterDateDesc();
+        List<Posts> topLikes = postRepository.findTop2ByCategoryTrueOrderByLikesDesc();
+        List<Posts> topRecent = postRepository.findTop2ByCategoryTrueOrderByRegisterDateDesc();
 
         // 두 리스트를 Stream으로 합쳐서 변환
         return Stream.concat(topLikes.stream(), topRecent.stream())
