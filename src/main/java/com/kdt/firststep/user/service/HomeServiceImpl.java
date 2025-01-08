@@ -60,9 +60,7 @@ public class HomeServiceImpl implements HomeService{
         return Stream.concat(topLikes.stream(), topRecent.stream())
             .map(post -> new CounselorContentSummaryResponseDTO(
                 post.getPostId(),
-                post.getTitle(),
-                post.getUser().getUsername(), // 작성자의 이름
-                post.getLikes()
+                post.getTitle()
             ))
             .collect(Collectors.toList());
     }

@@ -8,15 +8,18 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Posts, Long> {
 
-    // post 테이블에서 좋아요 수(likes) 순으로 상위 3개의 게시글의 제목과 내용 일부만 가져오기.
-    @Query(value = "SELECT p.post_id, u.nickname, p.title, SUBSTRING(p.content, 1, 100) AS content, DATE_FORMAT(p.register_date, '%Y-%m-%d') AS registerDate " +
-        "FROM posts p " +
-         "JOIN users u " +
-            "ON p.user_id = u.user_id " +  // users 테이블과 조인
-        "WHERE p.category = 0 " +
-        "ORDER BY p.likes DESC " +
-        "LIMIT 3",
-        nativeQuery = true)
+    @Query(value = "SELECT * FROM ( " +
+            "  SELECT p.post_id, u.nickname, p.title, SUBSTRING(p.content, 1, 100) AS content, " +
+            "         DATE_FORMAT(p.register_date, '%Y-%m-%d') AS registerDate " +
+            "  FROM posts p " +
+            "  JOIN users u ON p.user_id = u.user_id " +
+            "  WHERE p.category = 0 " +
+            "    AND p.register_date >= DATE_SUB(NOW(), INTERVAL 1 MONTH) " + // 6개월 이내의 데이터만
+            "  ORDER BY p.likes DESC " +
+            "  LIMIT 3 " +
+            ") AS top_liked_posts " +
+            "ORDER BY registerDate DESC",
+            nativeQuery = true)
     List<Object[]> findTop3ByLikesWithTitleAndContent();
 
     /*

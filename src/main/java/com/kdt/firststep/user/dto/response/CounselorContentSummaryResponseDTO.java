@@ -9,6 +9,4 @@ public class CounselorContentSummaryResponseDTO {
 
     private Integer postId;
     private String title;
-    private String writerName;
-    private Integer likes;
 }
