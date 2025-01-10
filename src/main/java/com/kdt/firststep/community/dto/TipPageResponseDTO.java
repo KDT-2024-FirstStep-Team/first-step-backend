@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TipPageResponseDTO {
-    private List<TipPostDTO> content;
+    private List<TipPostListDTO> content;
     private int currentPage;
     private int totalPages;
     private long totalElements;
