@@ -44,7 +44,7 @@ public class JwtTokenProvider {
                 .compact();
 
         String refreshToken = Jwts.builder()
-                .setSubject(userNickname)
+                .setSubject(email)
                 .claim("userNickname", userNickname)
                 .claim("authorities", roles)
                 .setIssuedAt(new Date())
@@ -68,6 +68,7 @@ public class JwtTokenProvider {
                     .build()
                     .parseClaimsJws(accessToken);
             return true;
+
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
@@ -75,7 +76,7 @@ public class JwtTokenProvider {
 
     public List<GrantedAuthority> getAuthorities(String token) {
         Claims claims = Jwts.parserBuilder()
-                .setSigningKey("your_secret_key")
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();

@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/counselor")
+@RequestMapping("api/v1/counselor")
 public class CounselorController {
     private final CounselorService counselorService;
     private final CounselorFilterService counselorFilterService;

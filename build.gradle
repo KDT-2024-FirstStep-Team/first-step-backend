@@ -36,6 +36,7 @@ dependencies {
 
     // Validation 의존성 (Valid 어노테이션을 사용하기 위한 의존성)
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
     // Swagger
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0"
 

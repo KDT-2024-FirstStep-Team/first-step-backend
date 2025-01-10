@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LifePageResponseDTO {
-    private List<LifePostDTO> content;
+    private List<LifePostListDTO> content;
     private int currentPage;
     private int totalPages;
     private long totalElements;

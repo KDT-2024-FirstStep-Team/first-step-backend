@@ -47,6 +47,9 @@ public class Posts {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comments> commentsList;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostImages> postImageList;
+
     @PostLoad
     private void calculateComments() {
         this.comments = (commentsList != null) ? commentsList.size() : 0;

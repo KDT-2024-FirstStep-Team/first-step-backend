@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/home")
+@RequestMapping("/api/v1/home")
 public class HomeController {
 
     private final HomeService homeService;

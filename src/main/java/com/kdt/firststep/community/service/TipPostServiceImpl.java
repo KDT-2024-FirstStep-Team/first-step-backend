@@ -3,6 +3,7 @@ package com.kdt.firststep.community.service;
 import com.kdt.firststep.community.domain.Posts;
 import com.kdt.firststep.community.dto.TipPageResponseDTO;
 import com.kdt.firststep.community.dto.TipPostDTO;
+import com.kdt.firststep.community.dto.TipPostListDTO;
 import com.kdt.firststep.community.repository.TipPostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,18 +37,16 @@ public class TipPostServiceImpl implements TipPostService {
             log.info("꿀팁 게시글 제목 검색: {}", posts);
         }
 
-        List<TipPostDTO> content = posts.getContent().stream()
-                .map(post -> new TipPostDTO(
+        List<TipPostListDTO> content = posts.getContent().stream()
+                .map(post -> new TipPostListDTO(
                         post.getPostId(),
-                        post.getUser().getUserId(),
-                        post.getCategory(),
+                        post.getUser().getNickname(),
                         post.getTitle(),
                         post.getContent(),
                         post.getRegisterDate(),
-                        post.getModifyDate(),
                         post.getLikes(),
                         post.getComments(),
-                        List.of()
+                        post.getPostImageList().isEmpty() ? null : post.getPostImageList().get(0).getImageUrl()
                         ))
                 .collect(Collectors.toList());
 

@@ -3,7 +3,9 @@ package com.kdt.firststep.community.service;
 import com.kdt.firststep.community.domain.Posts;
 import com.kdt.firststep.community.dto.LifePageResponseDTO;
 import com.kdt.firststep.community.dto.LifePostDTO;
+import com.kdt.firststep.community.dto.LifePostListDTO;
 import com.kdt.firststep.community.repository.LifePostRepository;
+import com.kdt.firststep.counselor.repository.PersonalityStatisticRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class LifePostServiceImpl implements LifePostService {
     
     private final LifePostRepository lifePostRepository;
+    private final PersonalityStatisticRepository personalityStatisticRepository;
 
     @Override
     public LifePageResponseDTO getLifePost(String title, Pageable pageable) {
@@ -37,18 +40,15 @@ public class LifePostServiceImpl implements LifePostService {
             log.info("쀼생 게시글 제목 검색: {}", posts);
         }
 
-        List<LifePostDTO> content = posts.getContent().stream()
-                .map(post -> new LifePostDTO(
+        List<LifePostListDTO> content = posts.getContent().stream()
+                .map(post -> new LifePostListDTO(
                         post.getPostId(),
-                        post.getUser().getUserId(),
-                        post.getCategory(),
+                        post.getUser().getNickname(),
                         post.getTitle(),
                         post.getContent(),
                         post.getRegisterDate(),
-                        post.getModifyDate(),
                         post.getLikes(),
-                        post.getComments(),
-                        List.of()
+                        post.getComments()
                 ))
                 .collect(Collectors.toList());
 
